@@ -1,31 +1,33 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-//import styles from './Page.less';
+//import styles from './DateSwitch.less';
 
 class Page extends Component {
 
   componentWillMount () {
-    this.props.actions.fetchItemsFromApi();
-    this.props.actions.fetchUsersFromApi();
+    this.props.actions.fetchTippersFromApi();
   }
 
   render () {
-    const status = this.props.items.get('status');
-    const response = this.props.items.get('response');
+    const status = this.props.tippers.get('status');
+    const response = this.props.tippers.getIn(['response', 'data']);
 
     switch (status) {
       case 'done':
-        if (response.get('data')) {
-          const items = response.get('data').map(item => {
-            return (<li key={item.get('name')}>
-              {item.get('name')} - {item.get('description')}
+        if (response.size) {
+          const users = response.map(item => {
+            return (<li key={item.get('id')}>
+              {item.get('firstName')} {item.get('lastName')} :
+              {item.get('score')} points
             </li>);
           });
 
           return (
-            <ul>
-              {items}
-            </ul>
+            <div>
+              <ul>
+                {users}
+              </ul>
+            </div>
           );
         } else {
           return false;
@@ -45,7 +47,7 @@ class Page extends Component {
 
 Page.propTypes = {
   actions: PropTypes.object,
-  items: ImmutablePropTypes.map,
+  tippers: ImmutablePropTypes.map,
 };
 
 export default Page;

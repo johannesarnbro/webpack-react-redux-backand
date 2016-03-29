@@ -1,5 +1,6 @@
 import config from 'webpack-config-loader!conf';
 import XMLHttpRequestPromise from 'xhr-promise';
+import * as Bu from 'utils/BACKANDuser';
 
 const checkStatus = (response) => {
   if (response.status >= 200
@@ -35,11 +36,7 @@ const getCache = (endpoint) => {
 };
 
 const isLoggedIn = () => {
-  try {
-    return localStorage.getItem('loggedIn');
-  } catch (error) {
-    return false;
-  }
+  Bu.getUser();
 };
 
 const shouldGetFromCache = (cache) => {
@@ -49,24 +46,29 @@ const shouldGetFromCache = (cache) => {
 };
 
 const backand = {
-  get: (endpoint) => {
-    const loggedIn = isLoggedIn();
+  get: (endpoint, state) => {
+    const user = isLoggedIn();
     const js = getCache(endpoint);
 
-    if (js && !shouldGetFromCache(js) && loggedIn !== 'true') {
+    if (js && !shouldGetFromCache(js)) {
       return new Promise((resolve) => {
         const data = js.data;
         resolve(data);
       });
     } else {
       const url = config.apiEndpoint + endpoint;
+      const headers = {};
+      if (user) {
+        headers.Authorization = `${user.token_type} ${user.access_token}`;
+        headers.Appname = 'tippeligan';
+      } else {
+        headers.AnonymousToken = '98c285fd-477f-46ad-ad5e-ff20ce91823f';
+      }
       const xhrPromise = new XMLHttpRequestPromise();
       return xhrPromise.send({
         method: 'GET',
         url: url,
-        headers: {
-          AnonymousToken: '98c285fd-477f-46ad-ad5e-ff20ce91823f',
-        },
+        headers: headers,
       })
       .then(checkStatus)
       .then((payload) => {
@@ -82,8 +84,40 @@ const backand = {
       });
     }
   },
-  post: (endpoint, data) => {
+  login: (endpoint, formData, userData) => {
+    const url = config.apiEndpoint + endpoint;
+    const xhrPromise = new XMLHttpRequestPromise();
 
+    return xhrPromise.send({
+      method: 'POST',
+      url: url,
+      data: formData,
+    })
+    .then((payload) => {
+      return payload.responseText;
+    })
+    .catch(() => {
+      throw new Error('ERROR');
+    });
+  },
+  register: (endpoint, formData) => {
+    const url = config.apiEndpoint + endpoint;
+    const xhrPromise = new XMLHttpRequestPromise();
+
+    return xhrPromise.send({
+      method: 'POST',
+      url: url,
+      data: JSON.stringify(formData),
+      headers: {
+        SignUpToken: config.signUpToken,
+      },
+    })
+    .then((payload) => {
+      return payload.responseText;
+    })
+    .catch(() => {
+      throw new Error('ERROR');
+    });
   },
 };
 

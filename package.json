@@ -1,7 +1,7 @@
 {
-  "name": "plushogskolan-web",
+  "name": "tippeligan",
   "version": "1.0.0",
-  "description": "Plushogskolan",
+  "description": "Tippeligan",
   "main": "index.js",
   "scripts": {
     "prod": "webpack --config production.js --progress --colors -p",

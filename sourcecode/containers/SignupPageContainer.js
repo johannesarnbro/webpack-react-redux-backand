@@ -1,8 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import App from 'components/App/App';
+import { default as _SignupPage } from 'components/SignupPage/SignupPage';
 import * as UserActions from 'actions/userActions';
-import * as GameActions from 'actions/gameActions';
 
 function mapStateToProps (state) {
   return {
@@ -11,12 +10,11 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  const AllActions = Object.assign(
-    {},
-    UserActions,
-    GameActions
-  );
+  const AllActions = Object.assign({}, UserActions);
   return {actions: bindActionCreators(AllActions, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export const SignupPage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(_SignupPage);

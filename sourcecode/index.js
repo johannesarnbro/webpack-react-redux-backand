@@ -8,7 +8,9 @@ import { syncHistory } from 'react-router-redux'
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from 'reducers'
 import AppContainer from 'containers/AppContainer';
-import { Page } from 'containers/PageContainer';
+import { DateSwitch } from 'containers/DateSwitchContainer';
+import { SignupPage } from 'containers/SignupPageContainer';
+import { LoginPage } from 'containers/LoginPageContainer';
 
 
 import installDevTools from 'immutable-devtools';
@@ -34,14 +36,20 @@ ReactDOM.render(
     <div>
       <Router history={browserHistory} onUpdate={() => window.scrollTo(0, 0)}>
         <Route path='/' component={AppContainer}>
-          <IndexRoute component={Page}/>
+          <IndexRoute component={DateSwitch}/>
+          <Route path='/registrera'>
+            <IndexRoute component={SignupPage}/>
+          </Route>
+          <Route path='/logga-in'>
+            <IndexRoute component={LoginPage}/>
+          </Route>
           <Route path=':slug'>
-            <IndexRoute component={Page}/>
-            <Route path='/:slug/:slug' component={Page}/>
-            <Route path='/:slug/:slug/:slug' component={Page}/>
+            <IndexRoute component={DateSwitch}/>
+            <Route path='/:slug/:slug' component={DateSwitch}/>
+            <Route path='/:slug/:slug/:slug' component={DateSwitch}/>
           </Route>
         </Route>
-        <Route path='*' component={Page}/>
+        <Route path='*' component={DateSwitch}/>
       </Router>
     </div>
   </Provider>,

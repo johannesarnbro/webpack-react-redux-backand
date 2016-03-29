@@ -1,4 +1,5 @@
-import actions from 'actions/userActions';
+import actions from 'actions/gameActions';
+import { copyStateToLocalStorage } from 'utils/syncStoreAndLocalStorage';
 import { fromJS } from 'immutable';
 
 const initialState = fromJS({
@@ -6,28 +7,39 @@ const initialState = fromJS({
   error: false,
 });
 
-function users (state = initialState, action) {
+function games (state = initialState, action) {
   switch (action.type) {
-    case actions.USERS_FETCH_REQUEST:
+    case actions.GAMES_FETCH_REQUEST:
       return state.merge(fromJS({
         status: 'fetching',
         error: false,
       }));
-    case actions.USERS_FETCH_SUCCESS:
+
+    case actions.GAMES_FETCH_SUCCESS:
+      copyStateToLocalStorage('games', action.response);
       return state.merge(fromJS({
         status: 'done',
         response: action.response,
         error: false,
         lastUpdated: action.receivedAt,
       }));
-    case actions.USERS_FETCH_FAIL:
+
+    case actions.GAMES_FETCH_FAIL:
       return state.merge(fromJS({
         status: 'error',
         error: fromJS(action.error),
       }));
+
+    case actions.GAMES_POPULATE_FROM_LS:
+      return state.merge(fromJS({
+        status: 'done',
+        response: action.response,
+        error: false,
+      }));
+
     default:
       return state
   }
 }
 
-export default users;
+export default games;
