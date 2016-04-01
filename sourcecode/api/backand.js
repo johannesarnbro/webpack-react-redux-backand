@@ -35,10 +35,6 @@ const getCache = (endpoint) => {
   }
 };
 
-const isLoggedIn = () => {
-  Bu.getUser();
-};
-
 const shouldGetFromCache = (cache) => {
   const today = new Date().getTime();
   const cacheDate = cache.timestamp;
@@ -46,8 +42,8 @@ const shouldGetFromCache = (cache) => {
 };
 
 const backand = {
-  get: (endpoint, state) => {
-    const user = isLoggedIn();
+  get: (endpoint) => {
+    const user = Bu.getUser();
     const js = getCache(endpoint);
 
     if (js && !shouldGetFromCache(js)) {
@@ -57,14 +53,16 @@ const backand = {
       });
     } else {
       const url = config.apiEndpoint + endpoint;
+      const xhrPromise = new XMLHttpRequestPromise();
+
       const headers = {};
       if (user) {
         headers.Authorization = `${user.token_type} ${user.access_token}`;
-        headers.Appname = 'tippeligan';
+        headers.Appname = config.appName;
       } else {
-        headers.AnonymousToken = '98c285fd-477f-46ad-ad5e-ff20ce91823f';
+        headers.AnonymousToken = config.anonymousToken;
       }
-      const xhrPromise = new XMLHttpRequestPromise();
+
       return xhrPromise.send({
         method: 'GET',
         url: url,
@@ -84,7 +82,7 @@ const backand = {
       });
     }
   },
-  login: (endpoint, formData, userData) => {
+  login: (endpoint, formData) => {
     const url = config.apiEndpoint + endpoint;
     const xhrPromise = new XMLHttpRequestPromise();
 
@@ -111,6 +109,39 @@ const backand = {
       headers: {
         SignUpToken: config.signUpToken,
       },
+    })
+    .then((payload) => {
+      return payload.responseText;
+    })
+    .catch(() => {
+      throw new Error('ERROR');
+    });
+  },
+  updateBong: (endpoint, bong) => {
+    const user = Bu.getUser();
+    const userId = user.userId;
+
+    const url = config.apiEndpoint + endpoint + `/${userId}?returnObject=true`;
+    const xhrPromise = new XMLHttpRequestPromise();
+
+    const headers = {};
+
+    if (user) {
+      headers.Authorization = `${user.token_type} ${user.access_token}`;
+      headers.Appname = config.appName;
+    } else {
+      headers.AnonymousToken = config.anonymousToken;
+    }
+
+    const data = JSON.stringify({
+      bong: JSON.stringify(bong),
+    });
+
+    return xhrPromise.send({
+      method: 'PUT',
+      url: url,
+      headers: headers,
+      data: data,
     })
     .then((payload) => {
       return payload.responseText;

@@ -10,7 +10,7 @@ class Page extends Component {
 
   render () {
     const status = this.props.tippers.get('status');
-    const response = this.props.tippers.getIn(['response', 'data']);
+    const response = this.props.tippers.get('response');
 
     switch (status) {
       case 'done':

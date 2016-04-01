@@ -15,6 +15,7 @@ const setFormInput = (state, action) => {
 };
 
 function user (state = initialState, action) {
+
   switch (action.type) {
     case actions.USER_LOGIN_REQUEST:
       return state.setIn(['forms', 'login', 'status'], 'Loggar in');

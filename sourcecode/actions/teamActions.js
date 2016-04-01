@@ -39,7 +39,7 @@ function teamsFetchFail (error) {
 function fetchTeams () {
   return dispatch => {
     dispatch(teamsFetchRequest());
-    return backand.get(`/1/objects/teams`)
+    return backand.get(`/1/query/data/teams`)
       .then(function (json) {
         dispatch(teamsFetchSuccess(json));
       })

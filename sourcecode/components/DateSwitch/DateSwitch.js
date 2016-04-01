@@ -7,25 +7,13 @@ import BongPage from 'components/BongPage/BongPage';
 
 class DateSwitch extends Component {
 
-  componentWillMount () {
-    this.props.actions.fetchGamesFromApi();
-    this.props.actions.fetchLocationsFromApi();
-    this.props.actions.fetchTeamsFromApi();
-    this.props.actions.fetchTippersFromApi();
-  }
-
   render () {
 
-    const { games, locations, teams } = this.props;
-
     if (isBeforeDeadline()) {
-
-      if (games.get('status') === 'done'
-        && locations.get('status') === 'done'
-        && teams.get('status') === 'done'
-      ) {
+      if (this.props.user.get('user')) {
         return (
           <BongPage actions={this.props.actions}
+                    bong={this.props.bong}
                     games={this.props.games}
                     locations={this.props.locations}
                     teams={this.props.teams}
@@ -33,8 +21,8 @@ class DateSwitch extends Component {
         );
       } else {
         return (
-          <div>Hämtar data...</div>
-        )
+          <p>Logga in!!</p>
+        );
       }
     } else {
       return (
@@ -47,6 +35,7 @@ class DateSwitch extends Component {
 
 DateSwitch.propTypes = {
   actions: PropTypes.object,
+  bong: ImmutablePropTypes.map,
   games: ImmutablePropTypes.map,
   locations: ImmutablePropTypes.map,
   teams: ImmutablePropTypes.map,

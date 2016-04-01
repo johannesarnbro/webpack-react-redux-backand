@@ -43,7 +43,7 @@
     "no-mixed-spaces-and-tabs": 2,
     "max-len": [
       2,
-      80
+      120
     ],
     "brace-style": 2,
     "no-undef": 2,

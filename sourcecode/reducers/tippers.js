@@ -18,6 +18,7 @@ function tippers (state = initialState, action) {
 
     case actions.TIPPERS_FETCH_SUCCESS:
       copyStateToLocalStorage('tippers', action.response);
+
       return state.merge(fromJS({
         status: 'done',
         response: action.response,

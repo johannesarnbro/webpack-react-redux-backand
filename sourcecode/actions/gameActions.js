@@ -39,7 +39,7 @@ function gamesFetchFail (error) {
 function fetchGames () {
   return dispatch => {
     dispatch(gamesFetchRequest());
-    return backand.get(`/1/objects/games`)
+    return backand.get(`/1/query/data/games`)
       .then(function (json) {
         dispatch(gamesFetchSuccess(json));
       })

@@ -5,11 +5,12 @@ export const copyStateToLocalStorage = (state, response) => {
 };
 
 export const populateStoreFromLocalStorage = (actions) => {
-  const states = ['Games', 'Locations', 'Teams', 'Tippers'];
+  const states = ['Bong', 'Games', 'Locations', 'Teams', 'Tippers'];
 
   states.map(state => {
-    if (localStorage.getItem(state)) {
-      actions[`populate${state}FromLocalStorage`](
+    if (localStorage.getItem(state.toLowerCase())) {
+      const action = `populate${state}FromLocalStorage`;
+      actions[action](
         Immutable.fromJS(JSON.parse(localStorage.getItem(state.toLowerCase())))
       );
     }

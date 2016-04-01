@@ -39,7 +39,7 @@ function locationsFetchFail (error) {
 function fetchLocations () {
   return dispatch => {
     dispatch(locationsFetchRequest());
-    return backand.get(`/1/objects/locations`)
+    return backand.get(`/1/query/data/locations`)
       .then(function (json) {
         dispatch(locationsFetchSuccess(json));
       })

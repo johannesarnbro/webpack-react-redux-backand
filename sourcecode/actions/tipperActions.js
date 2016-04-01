@@ -42,7 +42,7 @@ function tippersFetchFail (error) {
 function fetchTippers (state) {
   return dispatch => {
     dispatch(tippersFetchRequest());
-    return backand.get(`/1/objects/users`, state)
+    return backand.get(`/1/query/data/users`)
       .then(function (json) {
         dispatch(tippersFetchSuccess(json));
       })

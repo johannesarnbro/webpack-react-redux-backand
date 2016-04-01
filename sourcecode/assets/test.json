@@ -34,7 +34,7 @@
     lastName: '{{lastName()}}',
     email: '{{email()}}',
     password: '{{lorem(1, "words")}}',
-    result: {
+    bong: {
       groupGames: [
         '{{repeat(2)}}',
         [
