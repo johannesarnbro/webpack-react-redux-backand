@@ -51,7 +51,7 @@ const baseBongObject = () => {
       quarter: ['', '', '', '', '', '', '', ''],
       semi: ['', '', '', ''],
       final: ['', ''],
-      winner: '',
+      winner: [''],
     },
   }
 };

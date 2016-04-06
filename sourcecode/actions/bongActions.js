@@ -10,6 +10,7 @@ const bongActions = keyMirror({
   BONG_SEND_FAIL: null,
   SET_FORM_INPUT: null,
   SET_GROUP_GAME: null,
+  SET_PLAYOFF_GAME: null,
   BONG_POPULATE_FROM_LS: null,
 });
 
@@ -27,6 +28,15 @@ export function setGroupGame (game, team, value) {
     type: bongActions.SET_GROUP_GAME,
     game,
     team,
+    value,
+  }
+}
+
+export function setPlayoffGame (stage, index, value) {
+  return {
+    type: bongActions.SET_PLAYOFF_GAME,
+    stage,
+    index,
     value,
   }
 }

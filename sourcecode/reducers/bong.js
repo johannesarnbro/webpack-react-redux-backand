@@ -69,6 +69,41 @@ function bong (state = initialState, action) {
         action.value
       );
 
+    case actions.SET_PLAYOFF_GAME:
+      let tempState = state;
+      let stages = [];
+      if (action.stage === 'sixteen') {
+        stages = ['semi', 'final', 'winner'];
+
+        const newIndex = (action.index%2) ? ((action.index - 1) / 2) : (action.index / 2);
+        const thisOldVal = tempState.getIn(['tempBong', 'playoff', 'sixteen', action.index]);
+        const thatoldVal = tempState.getIn(['tempBong', 'playoff', 'quarter', newIndex]);
+
+        if (thisOldVal == thatoldVal) {
+          tempState = tempState.setIn(['tempBong', 'playoff', 'quarter', newIndex], action.value);
+        }
+      }
+      if (action.stage === 'quarter') {
+        stages = ['semi', 'final', 'winner'];
+      }
+      if (action.stage === 'semi') {
+        stages = ['final', 'winner'];
+      }
+      if (action.stage === 'final') {
+        stages = ['winner'];
+      }
+
+      stages.map(stage => {
+        tempState.getIn(['tempBong', 'playoff', stage]).map((val, index) => {
+          const oldVal = tempState.getIn(['tempBong', 'playoff', action.stage, action.index]);
+          if (oldVal && oldVal.length && val == oldVal) {
+            tempState = tempState.setIn(['tempBong', 'playoff', stage, index], '');
+          }
+        });
+      });
+
+      return tempState.setIn(['tempBong', 'playoff', action.stage, action.index], action.value);
+
     default:
       return state
   }

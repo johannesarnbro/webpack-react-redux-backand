@@ -60,6 +60,7 @@ class BongPage extends Component {
                         locations={this.props.locations}
                         teams={this.props.teams}/>
             <BongPlayoffGames actions={this.props.actions}
+                              bong={this.props.bong}
                               games={this.props.games}
                               locations={this.props.locations}
                               teams={this.props.teams}/>
