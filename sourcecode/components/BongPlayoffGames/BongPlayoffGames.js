@@ -60,18 +60,6 @@ class BongPlayoffGames extends Component {
     const bong = this.props.bong.get('tempBong');
     const handlers = this.handlers;
 
-
-
-
-
-
-    // Fixa så att senare matcher uppdateras om t.ex. en kvartsfinal ändras!!!
-
-
-
-
-
-
     return (
       <div>
         GroupGames
