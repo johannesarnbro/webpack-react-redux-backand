@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { isBeforeDeadline } from 'utils/dates';
+import baseBongObject from 'utils/baseBongObject';
+import Backendless from 'utils/backendless';
 //import styles from './LoginPage.less';
 
 
@@ -9,24 +11,16 @@ const handlers = (props) => {
     submit: (e) => {
       e.preventDefault();
 
-      const firstName = props.user.getIn(
-          ['forms', 'signup', 'firstName']) || '';
-      const lastName = props.user.getIn(['forms', 'signup', 'lastName']) || '';
-      const email = props.user.getIn(['forms', 'signup', 'email']) || '';
-      const password = props.user.getIn(['forms', 'signup', 'password']) || '';
-      const confirmPassword = props.user.getIn(
-          ['forms', 'signup', 'confirmPassword']) || '';
+      const { firstName, lastName, email, password } = props.user.getIn(['forms', 'signup']).toJS() || '';
 
-      const formData = {
-        firstName,
-        lastName,
-        email,
-        role: 'User',
-        password,
-        confirmPassword,
-      };
+      const user = new Backendless.User();
+      user.firstName = firstName;
+      user.lastName = lastName;
+      user.email = email;
+      user.password = password;
+      user.bong = JSON.stringify(baseBongObject);
 
-      props.actions.registerUserToBackand(formData);
+      props.actions.registerUserToBackand(user);
     },
     change: (e) => {
       const { name, value } = e.target;

@@ -1,11 +1,13 @@
 import keyMirror from 'keyMirror';
-import backand from 'api/backand';
+import Backendless from 'utils/backendless';
 
 const userActions = keyMirror({
   USER_LOGIN_REQUEST: null,
   USER_LOGIN_SUCCESS: null,
   USER_LOGIN_FAIL: null,
-  USER_LOGOUT: null,
+  USER_LOGOUT_REQUEST: null,
+  USER_LOGOUT_SUCCESS: null,
+  USER_LOGOUT_FAIL: null,
   USER_REGISTER_REQUEST: null,
   USER_REGISTER_SUCCESS: null,
   USER_REGISTER_FAIL: null,
@@ -30,10 +32,48 @@ export function setFormInput (form, name, value) {
 /* LOGOUT USER */
 /* * * * * * * */
 
-export function userLogout () {
+function userLogoutRequest () {
   return {
-    type: userActions.USER_LOGOUT,
+    type: userActions.USER_LOGOUT_REQUEST,
   }
+}
+
+function userLogoutSuccess (response) {
+  return {
+    type: userActions.USER_LOGOUT_SUCCESS,
+    response: response,
+    receivedAt: Date.now(),
+  }
+}
+
+function userLogoutFail (error) {
+  return {
+    type: userActions.USER_LOGOUT_FAIL,
+    error,
+  }
+}
+
+function logoutUser (user) {
+  return dispatch => {
+    dispatch(userLogoutRequest());
+
+    const userLoggedOut = () => {
+      dispatch(userLogoutSuccess(user))
+    };
+
+    const gotError = (err) => {
+      dispatch(userLogoutFail(err))
+    };
+
+    Backendless.UserService.logout( new Backendless.Async( userLoggedOut, gotError ) );
+
+  };
+}
+
+export function logoutUserFromBackand (user) {
+  return dispatch => {
+    return dispatch(logoutUser(user));
+  };
 }
 
 
@@ -62,26 +102,26 @@ function userLoginFail (error) {
   }
 }
 
-function loginUser (formData) {
+function loginUser (user) {
   return dispatch => {
     dispatch(userLoginRequest());
-    return backand.login(`/token`, formData)
-      .then(function (json) {
-        if (!json.error) {
-          dispatch(userLoginSuccess(json));
-        } else {
-          dispatch(userLoginFail(json));
-        }
-      })
-      .catch(function (error) {
-        dispatch(userLoginFail(error));
-      });
+
+    const userLoggedIn = (user) => {
+      dispatch(userLoginSuccess(user))
+    };
+
+    const gotError = (err) => {
+      dispatch(userLoginFail(err))
+    };
+
+    Backendless.UserService.login( user.email, user.password, true, new Backendless.Async( userLoggedIn, gotError ) );
+
   };
 }
 
-export function loginUserToBackand (formData) {
+export function loginUserToBackand (user) {
   return dispatch => {
-    return dispatch(loginUser(formData));
+    return dispatch(loginUser(user));
   };
 }
 
@@ -114,26 +154,25 @@ function userRegisterFail (error) {
   }
 }
 
-function registerUser (formData) {
+function registerUser (user) {
   return dispatch => {
     dispatch(userRegisterRequest());
-    return backand.register(`/1/user/signup`, formData)
-      .then(function (json) {
-        if (json.token) {
-          dispatch(userRegisterSuccess(json));
-        } else {
-          dispatch(userRegisterFail(json));
-        }
-      })
-      .catch(function (error) {
-        dispatch(userRegisterFail(error));
-      });
+
+    const userRegistered = (user) => {
+      dispatch(userRegisterSuccess(user))
+    };
+
+    const gotError = (err) => {
+      dispatch(userRegisterFail(err))
+    };
+
+    Backendless.UserService.register( user, new Backendless.Async( userRegistered, gotError ) );
   };
 }
 
-export function registerUserToBackand (formData) {
+export function registerUserToBackand (user) {
   return dispatch => {
-    return dispatch(registerUser(formData));
+    return dispatch(registerUser(user));
   };
 }
 

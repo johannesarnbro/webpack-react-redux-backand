@@ -82,41 +82,6 @@ const backand = {
       });
     }
   },
-  login: (endpoint, formData) => {
-    const url = config.apiEndpoint + endpoint;
-    const xhrPromise = new XMLHttpRequestPromise();
-
-    return xhrPromise.send({
-      method: 'POST',
-      url: url,
-      data: formData,
-    })
-    .then((payload) => {
-      return payload.responseText;
-    })
-    .catch(() => {
-      throw new Error('ERROR');
-    });
-  },
-  register: (endpoint, formData) => {
-    const url = config.apiEndpoint + endpoint;
-    const xhrPromise = new XMLHttpRequestPromise();
-
-    return xhrPromise.send({
-      method: 'POST',
-      url: url,
-      data: JSON.stringify(formData),
-      headers: {
-        SignUpToken: config.signUpToken,
-      },
-    })
-    .then((payload) => {
-      return payload.responseText;
-    })
-    .catch(() => {
-      throw new Error('ERROR');
-    });
-  },
   updateBong: (endpoint, bong) => {
     const user = Bu.getUser();
     const userId = user.userId;

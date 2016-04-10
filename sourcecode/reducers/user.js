@@ -35,7 +35,7 @@ function user (state = initialState, action) {
         (action.error.error_description || action.error)
       );
 
-    case actions.USER_LOGOUT:
+    case actions.USER_LOGOUT_SUCCESS:
       Bu.removeUser();
       return fromJS({});
 
@@ -48,7 +48,7 @@ function user (state = initialState, action) {
     case actions.USER_REGISTER_FAIL:
       return state.setIn(
         ['forms', 'signup', 'status'],
-        (action.error.error_description || action.error)
+        (action.error.message || action.error)
       );
 
     case actions.SET_FORM_INPUT:

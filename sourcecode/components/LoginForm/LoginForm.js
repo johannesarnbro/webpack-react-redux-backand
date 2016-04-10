@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import config from 'webpack-config-loader!conf';
-import htmlEncode from 'js-htmlencode';
 //import styles from './LoginPage.less';
 
 
@@ -10,20 +8,24 @@ const handlers = (props) => {
     login: (e) => {
       e.preventDefault();
 
-      const email = props.user.getIn(['forms', 'login', 'email']) || '';
-      const password = props.user.getIn(['forms', 'login', 'password']) || '';
+      const { email, password } = props.user.getIn(['forms', 'login']).toJS() || '';
 
-      let formData = `grant_type=password`;
-      formData += `&username=${htmlEncode(email)}`;
-      formData += `&password=${htmlEncode(password)}`;
-      formData += `&appname=${config.appName}`;
+      const user = {
+        email,
+        password,
+      };
+
+      //let formData = `grant_type=password`;
+      //formData += `&username=${htmlEncode(email)}`;
+      //formData += `&password=${htmlEncode(password)}`;
+      //formData += `&appname=${config.appName}`;
 
       //let formData = `grant_type=password`;
       //formData += `&username=johannes%40arnbro.se`;
       //formData += `&password=unwaunwaunwa`;
       //formData += `&appname=tippeligan`;
 
-      props.actions.loginUserToBackand(formData);
+      props.actions.loginUserToBackand(user);
     },
     change: (e) => {
       const { name, value } = e.target;
