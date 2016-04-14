@@ -19,8 +19,6 @@ function getBackendless() {
   })(function(root) {
     'use strict';
 
-    console.log('root', root);
-
     var NodeDevice = {
       name    : 'NODEJS',
       platform: 'NODEJS',

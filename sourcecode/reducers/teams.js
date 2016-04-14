@@ -19,7 +19,7 @@ function teams (state = initialState, action) {
       copyStateToLocalStorage('teams', action.response);
       return state.merge(fromJS({
         status: 'done',
-        response: action.response,
+        response: JSON.parse(JSON.stringify(action.response)),
         error: false,
         lastUpdated: action.receivedAt,
       }));

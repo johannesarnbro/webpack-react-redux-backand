@@ -1,58 +1,72 @@
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import Reorder from 'react-reorder';
 //import styles from './BongGroups.less';
+
+const handlers = (props) => {
+  return {
+    handleSort (event, itemThatHasBeenMoved, itemsPreviousIndex, itemsNewIndex, reorderedArray) {
+      const group = reorderedArray[0].props.group;
+      const order = [];
+      reorderedArray.map(team => {
+        order.push(team.props.value.get('objectId'));
+      });
+
+      props.actions.setGroupOrder(group, Immutable.fromJS(order));
+    },
+  }
+};
 
 class BongGroups extends Component {
 
+  constructor (props) {
+    super(props);
+    this.handlers = handlers(this.props);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.handlers = handlers(nextProps);
+  }
+
   render () {
 
-    //const games = this.props.games.get('response');
-    //const locations = this.props.locations.get('response');
     const teams = this.props.teams.get('response');
+    const bong = this.props.bong.get('tempBong');
+    const handlers = this.handlers;
 
-    const groups = teams.groupBy(team => team.get('group'))
-      .sortBy((teams, group) => {
-        return group;
-      }).map((teams, group) => {
-        const items = teams.map(team => {
-          return (
-            <li key={team.get('id')}>
-              {team.get('name')}
-            </li>
-          );
-        });
+    const groups = bong.get('groupOrder').map((group, i) => {
+      
+      const groupIds = ['A', 'B', 'C', 'D', 'E', 'F'];
 
+      const items = group.map(id => {
+        const team = teams.find(team => team.get('objectId') === id);
+        const name = team.get('name');
         return (
-          <div key={group}>
-            <p>{group}</p>
-            <ul>
-              {items}
-            </ul>
+          <div key={`team-${name}`} value={team} group={i}>
+            {name}
           </div>
-        );
-      }).toList();
+        )
+      }).toArray();
 
+      const groupId = groupIds[i];
 
-  //.map(game => {
-  //
-  //    const city = locations.find(location => location.get('id') === game.get('location'));
-  //    const home = teams.find(team => team.get('id') === game.get('home')).get('name');
-  //    const away = teams.find(team => team.get('id') === game.get('away')).get('name');
-  //
-  //    return (
-  //      <div key={game.get('id')} className={styles.game}>
-  //        <span className={styles.city}>{city.get('city')}
-  //          ({city.get('stadium')})</span>
-  //        <div>
-  //          <label htmlFor={home}>{home}</label>
-  //          <input id={home} type="text"/>
-  //          -
-  //          <input id={away} type="text"/>
-  //          <label htmlFor={away}>{away}</label>
-  //        </div>
-  //      </div>
-  //    );
-  //  });
+      return (
+        <div key={`group-${groupId}`}>
+          <p>{groupId}</p>
+          <Reorder
+            itemKey='key'
+            lock='horizontal'
+            holdTime='100'
+            list={items}
+            callback={handlers.handleSort}
+            listClass={`list-${i}`}
+            itemClass='list-item'
+          />
+        </div>
+      );
+
+    });
 
     return (
       <div>
@@ -65,6 +79,7 @@ class BongGroups extends Component {
 
 BongGroups.propTypes = {
   actions: PropTypes.object,
+  bong: ImmutablePropTypes.map,
   games: ImmutablePropTypes.map,
   locations: ImmutablePropTypes.map,
   teams: ImmutablePropTypes.map,

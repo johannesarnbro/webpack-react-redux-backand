@@ -10,8 +10,9 @@ const handlers = (props) => {
   return {
     sendBong: (e) => {
       e.preventDefault();
+      const user = props.user.get('user').toJS();
       const bong = props.bong.get('tempBong');
-      props.actions.sendBongToBackand(bong);
+      props.actions.sendBongToApi(user, bong);
     },
     change: (e) => {
 
@@ -34,16 +35,16 @@ class BongPage extends Component {
     this.props.actions.fetchGamesFromApi();
     this.props.actions.fetchLocationsFromApi();
     this.props.actions.fetchTeamsFromApi();
-    this.props.actions.fetchBongFromApi(this.props.user.getIn(['user', 'userId']));
+    //this.props.actions.fetchBongFromApi(this.props.user.getIn(['user', 'userId']));
   }
 
   render () {
     const { games, locations, teams, bong } = this.props;
 
-    if (games.get('status') === 'done'
-      && locations.get('status') === 'done'
-      && teams.get('status') === 'done'
-      && bong.get('status') === 'done'
+    if (games.size
+      && locations.size
+      && teams.size
+      //&& bong.get('status') === 'done'
     ) {
       return (
         <div>
@@ -52,10 +53,9 @@ class BongPage extends Component {
             <BongGroupGames actions={this.props.actions}
                             bong={this.props.bong}
                             games={this.props.games}
-                            locations={this.props.locations}
-                            teams={this.props.teams}
                             user={this.props.user}/>
             <BongGroups actions={this.props.actions}
+                        bong={this.props.bong}
                         games={this.props.games}
                         locations={this.props.locations}
                         teams={this.props.teams}/>

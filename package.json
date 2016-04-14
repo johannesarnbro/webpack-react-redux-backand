@@ -54,7 +54,7 @@
     "react-router-redux": "^2.1.0",
     "redux": "^3.3.1",
     "redux-immutable": "^3.0.3",
-    "redux-thunk": "^1.0.2",
+    "redux-thunk": "^2.0.1",
     "webpack-config-loader": "^0.1.0",
     "xhr-promise": "^2.0.0"
   }

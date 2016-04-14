@@ -1,2 +1,3 @@
 node_modules/*
 sourcecode/utils/backendless.js
+sourcecode/utils/baseBongObject.js

@@ -6,11 +6,11 @@ class BongPlayoffGamesQuarters extends Component {
 
   render () {
 
-    const { bong, gamesQuarters, handlers, locations, teams } = this.props;
+    const { bong, gamesQuarters, handlers, teams } = this.props;
 
     const quarters = gamesQuarters.map((game, i) => {
       const j = i * 2;
-      const city = locations.find(location => location.get('id') === game.get('location'));
+      const location = game.get('location').toJS();
 
       const g = {};
       switch (i) {
@@ -34,14 +34,14 @@ class BongPlayoffGamesQuarters extends Component {
 
       const homeId = bong.getIn(['playoff', 'quarter', g.h]);
       const awayId = bong.getIn(['playoff', 'quarter', g.a]);
-      const home = teams.find(team => team.get('id') == homeId);
-      const away = teams.find(team => team.get('id') == awayId);
+      const home = teams.find(team => team.get('objectId') == homeId);
+      const away = teams.find(team => team.get('objectId') == awayId);
       const checked = bong.getIn(['playoff', 'semi', i]);
 
       return (
-        <div key={game.get('id')} className={styles.game}>
+        <div key={game.get('objectId')} className={styles.game}>
           <span className={styles.city}>
-            {city.get('city')} ({city.get('stadium')})
+            {location.city} ({location.stadium})
           </span>
           {(home)
             ? <div>
@@ -49,7 +49,7 @@ class BongPlayoffGamesQuarters extends Component {
                    name={`radio_quarter_${i}`}
                    id={`radio_quarter_${j}`}
                    onChange={handlers.setSemi}
-                   value={(home) ? home.get('id') : ''}
+                   value={(home) ? home.get('objectId') : ''}
                    checked={(checked && checked === homeId)}/>
             <label htmlFor={`radio_quarter_${j}`}>{home.get('name')}</label>
           </div>
@@ -61,7 +61,7 @@ class BongPlayoffGamesQuarters extends Component {
                    name={`radio_quarter_${i}`}
                    id={`radio_quarter_${j+1}`}
                    onChange={handlers.setSemi}
-                   value={(away) ? away.get('id') : ''}
+                   value={(away) ? away.get('objectId') : ''}
                    checked={(checked && checked === awayId)}/>
             <label htmlFor={`radio_quarter_${j+1}`}>{away.get('name')}</label>
           </div>
@@ -83,7 +83,6 @@ BongPlayoffGamesQuarters.propTypes = {
   bong: ImmutablePropTypes.map,
   gamesQuarters: ImmutablePropTypes.list,
   handlers: PropTypes.object,
-  locations: ImmutablePropTypes.list,
   teams: ImmutablePropTypes.list,
 };
 

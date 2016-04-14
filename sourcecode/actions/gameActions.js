@@ -1,5 +1,5 @@
 import keyMirror from 'keyMirror';
-import backand from 'api/backand';
+import Backendless from 'utils/backendless';
 
 const gameActions = keyMirror({
   GAMES_FETCH_REQUEST: null,
@@ -24,7 +24,7 @@ function gamesFetchRequest () {
 function gamesFetchSuccess (response) {
   return {
     type: gameActions.GAMES_FETCH_SUCCESS,
-    response,
+    response: response.data,
     receivedAt: Date.now(),
   }
 }
@@ -39,15 +39,32 @@ function gamesFetchFail (error) {
 function fetchGames () {
   return dispatch => {
     dispatch(gamesFetchRequest());
-    return backand.get(`/1/query/data/games`)
-      .then(function (json) {
-        dispatch(gamesFetchSuccess(json));
-      })
-      .catch(function (error) {
-        dispatch(gamesFetchFail(error));
-      });
-  };
-}
+
+    const dataFetched = (data) => {
+      dispatch(gamesFetchSuccess(data))
+    };
+
+    const gotError = (err) => {
+      dispatch(gamesFetchFail(err))
+    };
+
+    function Games (args = {}) {
+      this.name = args.name || '';
+      this.code = args.code || '';
+      this.group = args.group || '';
+    };
+
+    const query = {
+      options: {
+        pageSize: 51,
+        relations: ['home', 'away', 'location'],
+      },
+    };
+
+    const games = Backendless.Persistence.of(Games);
+    games.find(query, new Backendless.Async(dataFetched, gotError));
+  }
+};
 
 function shouldFetchGames (state) {
   //if (!state.getIn(['pages', slug])) {

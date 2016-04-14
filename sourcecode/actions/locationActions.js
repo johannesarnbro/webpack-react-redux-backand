@@ -1,5 +1,5 @@
 import keyMirror from 'keyMirror';
-import backand from 'api/backand';
+import Backendless from 'utils/backendless';
 
 const locationActions = keyMirror({
   LOCATIONS_FETCH_REQUEST: null,
@@ -24,7 +24,7 @@ function locationsFetchRequest () {
 function locationsFetchSuccess (response) {
   return {
     type: locationActions.LOCATIONS_FETCH_SUCCESS,
-    response: response,
+    response: response.data,
     receivedAt: Date.now(),
   }
 }
@@ -39,13 +39,28 @@ function locationsFetchFail (error) {
 function fetchLocations () {
   return dispatch => {
     dispatch(locationsFetchRequest());
-    return backand.get(`/1/query/data/locations`)
-      .then(function (json) {
-        dispatch(locationsFetchSuccess(json));
-      })
-      .catch(function (error) {
-        dispatch(locationsFetchFail(error));
-      });
+
+    const dataFetched = (data) => {
+      dispatch(locationsFetchSuccess(data))
+    };
+
+    const gotError = (err) => {
+      dispatch(locationsFetchFail(err))
+    };
+
+    function Locations(args = {}) {
+      this.stadium = args.stadium || '';
+      this.city = args.city || '';
+    };
+
+    const query = {
+      options: {
+        pageSize: 10,
+      },
+    };
+
+    const locations = Backendless.Persistence.of(Locations);
+    locations.find(query, new Backendless.Async(dataFetched, gotError));
   };
 }
 

@@ -15,17 +15,11 @@ const handlers = (props) => {
         password,
       };
 
-      //let formData = `grant_type=password`;
-      //formData += `&username=${htmlEncode(email)}`;
-      //formData += `&password=${htmlEncode(password)}`;
-      //formData += `&appname=${config.appName}`;
-
-      //let formData = `grant_type=password`;
-      //formData += `&username=johannes%40arnbro.se`;
-      //formData += `&password=unwaunwaunwa`;
-      //formData += `&appname=tippeligan`;
-
-      props.actions.loginUserToBackand(user);
+      if (email && password) {
+        props.actions.loginUserToBackendless(user);
+      } else {
+        props.actions.setFormStatus('login', 'Enter your email and password');
+      }
     },
     change: (e) => {
       const { name, value } = e.target;

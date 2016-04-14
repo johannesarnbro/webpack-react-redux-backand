@@ -28,7 +28,7 @@ class Header extends Component {
         <Link to='/'>Accueil</Link>
         {(user.get('user'))
           ? (
-          <Link to={'/'} onClick={actions.userLogout}>Se déconnecter</Link>
+          <Link to={'/'} onClick={actions.logoutUserFromBackendless}>Se déconnecter</Link>
         )
           : (
           <Link to={'/logga-in'}>Se connecter</Link>

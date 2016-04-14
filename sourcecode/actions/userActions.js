@@ -12,6 +12,7 @@ const userActions = keyMirror({
   USER_REGISTER_SUCCESS: null,
   USER_REGISTER_FAIL: null,
   SET_FORM_INPUT: null,
+  SET_FORM_STATUS: null,
 });
 
 
@@ -28,98 +29,86 @@ export function setFormInput (form, name, value) {
   }
 }
 
+export function setFormStatus (form, status) {
+  return {
+    type: userActions.SET_FORM_STATUS,
+    form,
+    status,
+  }
+}
+
 /* * * * * * * */
 /* LOGOUT USER */
 /* * * * * * * */
 
-function userLogoutRequest () {
-  return {
-    type: userActions.USER_LOGOUT_REQUEST,
-  }
-}
-
-function userLogoutSuccess (response) {
-  return {
-    type: userActions.USER_LOGOUT_SUCCESS,
-    response: response,
-    receivedAt: Date.now(),
-  }
-}
-
-function userLogoutFail (error) {
-  return {
-    type: userActions.USER_LOGOUT_FAIL,
-    error,
-  }
-}
-
 function logoutUser (user) {
   return dispatch => {
-    dispatch(userLogoutRequest());
+    dispatch({
+      type: userActions.USER_LOGOUT_REQUEST,
+    });
 
-    const userLoggedOut = () => {
-      dispatch(userLogoutSuccess(user))
+    const userLogoutSuccess = () => {
+      dispatch({
+        type: userActions.USER_LOGOUT_SUCCESS,
+        response: user,
+        receivedAt: Date.now(),
+      })
     };
 
-    const gotError = (err) => {
-      dispatch(userLogoutFail(err))
+    const userLogoutFail = (error) => {
+      dispatch({
+        type: userActions.USER_LOGOUT_FAIL,
+        error,
+      })
     };
 
-    Backendless.UserService.logout( new Backendless.Async( userLoggedOut, gotError ) );
+    const callback = new Backendless.Async(userLogoutSuccess, userLogoutFail);
+    Backendless.UserService.logout(callback);
 
   };
 }
 
-export function logoutUserFromBackand (user) {
+export function logoutUserFromBackendless (user) {
   return dispatch => {
     return dispatch(logoutUser(user));
   };
 }
 
 
+
+
 /* * * * * * * */
 /* LOGIN USER  */
 /* * * * * * * */
 
-function userLoginRequest () {
-  return {
-    type: userActions.USER_LOGIN_REQUEST,
-  }
-}
-
-function userLoginSuccess (response) {
-  return {
-    type: userActions.USER_LOGIN_SUCCESS,
-    response: response,
-    receivedAt: Date.now(),
-  }
-}
-
-function userLoginFail (error) {
-  return {
-    type: userActions.USER_LOGIN_FAIL,
-    error,
-  }
-}
-
 function loginUser (user) {
   return dispatch => {
-    dispatch(userLoginRequest());
+    dispatch({
+      type: userActions.USER_LOGIN_REQUEST,
+    });
 
-    const userLoggedIn = (user) => {
-      dispatch(userLoginSuccess(user))
+    const userLoginSuccess = (user) => {
+      dispatch({
+        type: userActions.USER_LOGIN_SUCCESS,
+        response: user,
+        receivedAt: Date.now(),
+      })
     };
 
-    const gotError = (err) => {
-      dispatch(userLoginFail(err))
+    const userLoginFail = (error) => {
+      dispatch({
+        type: userActions.USER_LOGIN_FAIL,
+        error,
+      })
     };
 
-    Backendless.UserService.login( user.email, user.password, true, new Backendless.Async( userLoggedIn, gotError ) );
+    const callback = new Backendless.Async(userLoginSuccess, userLoginFail);
+    Backendless.UserService.login(user.email, user.password, true, callback);
 
   };
 }
 
-export function loginUserToBackand (user) {
+export function loginUserToBackendless (user) {
   return dispatch => {
     return dispatch(loginUser(user));
   };
@@ -128,52 +117,42 @@ export function loginUserToBackand (user) {
 
 
 
-
 /* * * * * * * * */
 /* REGISTER USER */
 /* * * * * * * * */
 
-function userRegisterRequest () {
-  return {
-    type: userActions.USER_REGISTER_REQUEST,
-  }
-}
-
-function userRegisterSuccess (response) {
-  return {
-    type: userActions.USER_REGISTER_SUCCESS,
-    response: response,
-    receivedAt: Date.now(),
-  }
-}
-
-function userRegisterFail (error) {
-  return {
-    type: userActions.USER_REGISTER_FAIL,
-    error,
-  }
-}
-
 function registerUser (user) {
   return dispatch => {
-    dispatch(userRegisterRequest());
+    dispatch({
+      type: userActions.USER_REGISTER_REQUEST,
+    });
 
-    const userRegistered = (user) => {
-      dispatch(userRegisterSuccess(user))
+    const userRegisterSuccess = (user) => {
+      dispatch({
+        type: userActions.USER_REGISTER_SUCCESS,
+        response: user,
+        receivedAt: Date.now(),
+      })
     };
 
-    const gotError = (err) => {
-      dispatch(userRegisterFail(err))
+    const userRegisterFail = (error) => {
+      dispatch({
+        type: userActions.USER_REGISTER_FAIL,
+        error,
+      })
     };
 
-    Backendless.UserService.register( user, new Backendless.Async( userRegistered, gotError ) );
+    const callback = new Backendless.Async( userRegisterSuccess, userRegisterFail );
+    Backendless.UserService.register( user, callback);
   };
 }
 
-export function registerUserToBackand (user) {
+export function registerUserToBackendless (user) {
   return dispatch => {
     return dispatch(registerUser(user));
   };
 }
+
+
 
 export default userActions;

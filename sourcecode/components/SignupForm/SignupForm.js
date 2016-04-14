@@ -20,7 +20,7 @@ const handlers = (props) => {
       user.password = password;
       user.bong = JSON.stringify(baseBongObject);
 
-      props.actions.registerUserToBackand(user);
+      props.actions.registerUserToBackendless(user);
     },
     change: (e) => {
       const { name, value } = e.target;

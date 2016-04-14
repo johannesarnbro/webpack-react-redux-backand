@@ -1,5 +1,5 @@
 import keyMirror from 'keyMirror';
-import backand from 'api/backand';
+import Backendless from 'utils/backendless';
 
 const teamActions = keyMirror({
   TEAMS_FETCH_REQUEST: null,
@@ -24,7 +24,7 @@ function teamsFetchRequest () {
 function teamsFetchSuccess (response) {
   return {
     type: teamActions.TEAMS_FETCH_SUCCESS,
-    response: response,
+    response: response.data,
     receivedAt: Date.now(),
   }
 }
@@ -39,15 +39,31 @@ function teamsFetchFail (error) {
 function fetchTeams () {
   return dispatch => {
     dispatch(teamsFetchRequest());
-    return backand.get(`/1/query/data/teams`)
-      .then(function (json) {
-        dispatch(teamsFetchSuccess(json));
-      })
-      .catch(function (error) {
-        dispatch(teamsFetchFail(error));
-      });
-  };
-}
+
+    const dataFetched = (data) => {
+      dispatch(teamsFetchSuccess(data))
+    };
+
+    const gotError = (err) => {
+      dispatch(teamsFetchFail(err))
+    };
+
+    function Teams (args = {}) {
+      this.name = args.name || '';
+      this.code = args.code || '';
+      this.group = args.group || '';
+    };
+
+    const query = {
+      options: {
+        pageSize: 24,
+      },
+    };
+
+    const teams = Backendless.Persistence.of(Teams);
+    teams.find(query, new Backendless.Async(dataFetched, gotError));
+  }
+};
 
 function shouldFetchTeams (state) {
   //if (!state.getIn(['pages', slug])) {

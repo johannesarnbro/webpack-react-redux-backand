@@ -6,34 +6,34 @@ class BongPlayoffGamesSixteens extends Component {
 
   render () {
 
-    const { bong, gamesSixteens, handlers, locations, teams } = this.props;
+    const { bong, gamesSixteens, handlers, teams } = this.props;
 
     const teamsLeft = teams.filter(team => {
-      return !bong.getIn(['playoff', 'sixteen']).find(id => id == team.get('id'));
+      return !bong.getIn(['playoff', 'sixteen']).find(id => id == team.get('objectId'));
     });
 
     const sixteens = gamesSixteens.map((game, i) => {
       const j = i * 2;
-      const city = locations.find(location => location.get('id') === game.get('location'));
+      const location = game.get('location').toJS();
       const homeId = bong.getIn(['playoff', 'sixteen', j]);
-      const home = teams.find(team => team.get('id') == homeId);
+      const home = teams.find(team => team.get('objectId') == homeId);
       const awayId = bong.getIn(['playoff', 'sixteen', j + 1]);
-      const away = teams.find(team => team.get('id') == awayId);
+      const away = teams.find(team => team.get('objectId') == awayId);
       const checked = bong.getIn(['playoff', 'quarter', i]);
 
       return (
-        <div key={game.get('id')} className={styles.game}>
+        <div key={game.get('objectId')} className={styles.game}>
           <span className={styles.city}>
-            {city.get('city')} ({city.get('stadium')})
+            {location.city} ({location.stadium})
           </span>
           <select name={`select_${j}`}
                   id={`select_${j}`}
                   onChange={handlers.setSixteen}>
-            {(home) ? <option value={home.get('id')}>{home.get('name')}</option> : false}
+            {(home) ? <option value={home.get('objectId')}>{home.get('name')}</option> : false}
             <option value=''>-</option>
             {teamsLeft.map(team => {
               return (
-                <option key={team.get('id')} value={team.get('id')}>{team.get('name')}</option>
+                <option key={team.get('objectId')} value={team.get('objectId')}>{team.get('name')}</option>
               );
             })}
           </select>
@@ -41,7 +41,7 @@ class BongPlayoffGamesSixteens extends Component {
                  name={`radio_sixteen_${i}`}
                  id={`radio_sixteen_${j}`}
                  onChange={handlers.setQuarter}
-                 value={(home) ? home.get('id') : ''}
+                 value={(home) ? home.get('objectId') : ''}
                  checked={(checked && checked === homeId)}/>
           <label htmlFor={`radio_sixteen_${j}`}/>
           -
@@ -49,17 +49,17 @@ class BongPlayoffGamesSixteens extends Component {
                  name={`radio_sixteen_${i}`}
                  id={`radio_sixteen_${j+1}`}
                  onChange={handlers.setQuarter}
-                 value={(away) ? away.get('id') : ''}
+                 value={(away) ? away.get('objectId') : ''}
                  checked={(checked && checked === awayId)}/>
           <label htmlFor={`radio_sixteen_${j+1}`}/>
           <select name={`select_${j+1}`}
                   id={`select_${j+1}`}
                   onChange={handlers.setSixteen}>
-            {(away) ? <option value={away.get('id')}>{away.get('name')}</option> : false}
+            {(away) ? <option value={away.get('objectId')}>{away.get('name')}</option> : false}
             <option value=''>-</option>
             {teamsLeft.map(team => {
               return (
-                <option key={team.get('id')} value={team.get('id')}>{team.get('name')}</option>
+                <option key={team.get('objectId')} value={team.get('objectId')}>{team.get('name')}</option>
               );
             })}
           </select>

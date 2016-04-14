@@ -64,10 +64,10 @@ function bong (state = initialState, action) {
       }));
 
     case actions.SET_GROUP_GAME:
-      return state.setIn(
-        ['tempBong', 'groupGames', action.game, action.team],
-        action.value
-      );
+      return state.setIn(['tempBong', 'groupGames', action.game, action.team], action.value);
+
+    case actions.SET_GROUP_ORDER:
+      return state.setIn(['tempBong', 'groupOrder', action.group], action.order);
 
     case actions.SET_PLAYOFF_GAME:
       let tempState = state;

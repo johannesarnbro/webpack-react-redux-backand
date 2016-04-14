@@ -10,7 +10,7 @@ class LoginPage extends Component {
 
     if (user.get('user')) {
       return (
-        <p>Du är inloggad som {user.getIn(['user', 'fullName'])}</p>
+        <p>Du är inloggad som {user.getIn(['user', 'firstName'])}</p>
       )
     } else {
       return (
