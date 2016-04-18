@@ -122,7 +122,6 @@ function sendBong (user, bong) {
 
 
     const sendBongSuccess = (data) => {
-      // console.log('data', data);
       // dispatch{
       //   type: bongActions.BONG_SEND_SUCCESS,
       //   response: data,
@@ -131,7 +130,6 @@ function sendBong (user, bong) {
     };
     
     const sendBongFail = (err) => {
-      // console.log('error', error);
       // dispatch{
       //   type: bongActions.BONG_SEND_FAIL,
       //   error,
