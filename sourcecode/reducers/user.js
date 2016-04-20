@@ -1,10 +1,9 @@
 import actions from 'actions/userActions';
 import { fromJS } from 'immutable';
-import baseBongObject from 'utils/baseBongObject';
 import { copyStateToLocalStorage, removeStateFromLocalStorage } from 'utils/syncStoreAndLocalStorage';
 
 const initialState = fromJS({
-  tempBong: baseBongObject,
+  tempBong: '',
   forms: {
     login: {},
     signup: {},
@@ -21,7 +20,7 @@ function user (state = initialState, action) {
   switch (action.type) {
     case actions.USER_POPULATE_FROM_LS:
       return state.merge(fromJS({
-        tempBong: JSON.parse(action.response.get('bong')),
+        tempBong: action.response.get('bong'),
         user: action.response,
       }));
 
@@ -29,12 +28,15 @@ function user (state = initialState, action) {
       return state.setIn(['forms', 'login', 'status'], 'Loggar in');
 
     case actions.USER_LOGIN_SUCCESS:
-      copyStateToLocalStorage('user', action.response);
+      const loggedInBong = JSON.parse(action.response.get('bong'));
+      const loggedInUser = action.response.set('bong', loggedInBong);
+      copyStateToLocalStorage('user', loggedInUser);
       return state.merge({
+        tempBong: loggedInBong,
         forms: {
           login: {},
         },
-        user: action.response,
+        user: loggedInUser,
       });
 
     case actions.USER_LOGIN_FAIL:
@@ -57,9 +59,12 @@ function user (state = initialState, action) {
       return state;
 
     case actions.BONG_SEND_SUCCESS:
-      copyStateToLocalStorage('user', action.response);
+      const bongSentBong = JSON.parse(action.response.get('bong'));
+      const bongSentUser = action.response.set('bong', bongSentBong);
+      copyStateToLocalStorage('user', bongSentUser);
       return state.merge(fromJS({
-        user: action.response,
+        tempBong: bongSentBong,
+        user: bongSentUser,
       }));
 
     case actions.BONG_SEND_FAIL:
