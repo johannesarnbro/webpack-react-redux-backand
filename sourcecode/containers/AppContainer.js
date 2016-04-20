@@ -1,7 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import App from 'components/App/App';
-import * as BongActions from 'actions/bongActions';
 import * as GameActions from 'actions/gameActions';
 import * as LocationActions from 'actions/locationActions';
 import * as TeamActions from 'actions/teamActions';
@@ -17,7 +16,6 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   const AllActions = Object.assign(
     {},
-    BongActions,
     GameActions,
     LocationActions,
     TeamActions,

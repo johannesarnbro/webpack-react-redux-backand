@@ -1,8 +1,10 @@
 import actions from 'actions/userActions';
 import { fromJS } from 'immutable';
+import baseBongObject from 'utils/baseBongObject';
 import { copyStateToLocalStorage, removeStateFromLocalStorage } from 'utils/syncStoreAndLocalStorage';
 
 const initialState = fromJS({
+  tempBong: baseBongObject,
   forms: {
     login: {},
     signup: {},
@@ -19,6 +21,7 @@ function user (state = initialState, action) {
   switch (action.type) {
     case actions.USER_POPULATE_FROM_LS:
       return state.merge(fromJS({
+        tempBong: JSON.parse(action.response.get('bong')),
         user: action.response,
       }));
 
@@ -49,6 +52,59 @@ function user (state = initialState, action) {
 
     case actions.USER_REGISTER_FAIL:
       return state.setIn(['forms', 'signup', 'status'], (action.error.message || ''));
+
+    case actions.BONG_SEND_REQUEST:
+      return state;
+
+    case actions.BONG_SEND_SUCCESS:
+      copyStateToLocalStorage('user', action.response);
+      return state.merge(fromJS({
+        user: action.response,
+      }));
+
+    case actions.BONG_SEND_FAIL:
+      return state;
+
+    case actions.SET_GROUP_GAME:
+      return state.setIn(['tempBong', 'groupGames', action.game, action.team], action.value);
+
+    case actions.SET_GROUP_ORDER:
+      return state.setIn(['tempBong', 'groupOrder', action.group], action.order);
+
+    case actions.SET_PLAYOFF_GAME:
+      let tempState = state;
+      let stages = [];
+      if (action.stage === 'sixteen') {
+        stages = ['semi', 'final', 'winner'];
+
+        const newIndex = (action.index%2) ? ((action.index - 1) / 2) : (action.index / 2);
+        const thisOldVal = tempState.getIn(['tempBong', 'playoff', 'sixteen', action.index]);
+        const thatoldVal = tempState.getIn(['tempBong', 'playoff', 'quarter', newIndex]);
+
+        if (thisOldVal == thatoldVal) {
+          tempState = tempState.setIn(['tempBong', 'playoff', 'quarter', newIndex], action.value);
+        }
+      }
+      if (action.stage === 'quarter') {
+        stages = ['semi', 'final', 'winner'];
+      }
+      if (action.stage === 'semi') {
+        stages = ['final', 'winner'];
+      }
+      if (action.stage === 'final') {
+        stages = ['winner'];
+      }
+
+      stages.map(stage => {
+        tempState.getIn(['tempBong', 'playoff', stage]).map((val, index) => {
+          const oldVal = tempState.getIn(['tempBong', 'playoff', action.stage, action.index]);
+          if (oldVal && oldVal.length && val == oldVal) {
+            tempState = tempState.setIn(['tempBong', 'playoff', stage, index], '');
+          }
+        });
+      });
+
+      return tempState.setIn(['tempBong', 'playoff', action.stage, action.index], action.value);
 
     case actions.SET_FORM_INPUT:
       return setFormInput(state, action);

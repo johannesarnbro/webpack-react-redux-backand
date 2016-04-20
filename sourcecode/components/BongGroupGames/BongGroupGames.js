@@ -25,7 +25,7 @@ class BongGroupGames extends Component {
   render () {
 
     const games = this.props.games.get('response');
-    const bong = this.props.bong.get('tempBong');
+    const bong = this.props.user.get('tempBong');
 
     const groupGames = games.filter(game => {
       return game.get('stage') === 'group';
@@ -71,7 +71,6 @@ class BongGroupGames extends Component {
 
 BongGroupGames.propTypes = {
   actions: PropTypes.object,
-  bong: ImmutablePropTypes.map,
   games: ImmutablePropTypes.map,
   user: ImmutablePropTypes.map,
 };

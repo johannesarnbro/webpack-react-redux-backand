@@ -17,6 +17,10 @@ function tippers (state = initialState, action) {
       }));
 
     case actions.TIPPERS_FETCH_SUCCESS:
+      // const tippers = action.response.map(tipper => {
+      //   return tipper.set('bong', fromJS(JSON.parse(tipper.get('bong'))));
+      // });
+      //
       copyStateToLocalStorage('tippers', action.response);
       return state.merge(fromJS({
         status: 'done',

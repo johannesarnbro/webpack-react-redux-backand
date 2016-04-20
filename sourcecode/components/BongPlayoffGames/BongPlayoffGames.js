@@ -57,7 +57,7 @@ class BongPlayoffGames extends Component {
     const gameFinal = games.filter(game => game.get('stage') === 'final');
     const locations = this.props.locations.get('response');
     const teams = this.props.teams.get('response').sortBy(team => team.get('name'));
-    const bong = this.props.bong.get('tempBong');
+    const bong = this.props.user.get('tempBong');
     const handlers = this.handlers;
 
     return (

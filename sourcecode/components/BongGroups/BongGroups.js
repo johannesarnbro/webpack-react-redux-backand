@@ -32,7 +32,7 @@ class BongGroups extends Component {
   render () {
 
     const teams = this.props.teams.get('response');
-    const bong = this.props.bong.get('tempBong');
+    const bong = this.props.user.get('tempBong');
     const handlers = this.handlers;
 
     const groups = bong.get('groupOrder').map((group, i) => {
@@ -79,7 +79,6 @@ class BongGroups extends Component {
 
 BongGroups.propTypes = {
   actions: PropTypes.object,
-  bong: ImmutablePropTypes.map,
   games: ImmutablePropTypes.map,
   locations: ImmutablePropTypes.map,
   teams: ImmutablePropTypes.map,

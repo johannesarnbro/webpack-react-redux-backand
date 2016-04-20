@@ -12,6 +12,12 @@ const userActions = keyMirror({
   USER_REGISTER_REQUEST: null,
   USER_REGISTER_SUCCESS: null,
   USER_REGISTER_FAIL: null,
+  BONG_SEND_REQUEST: null,
+  BONG_SEND_SUCCESS: null,
+  BONG_SEND_FAIL: null,
+  SET_GROUP_GAME: null,
+  SET_GROUP_ORDER: null,
+  SET_PLAYOFF_GAME: null,
   SET_FORM_INPUT: null,
   SET_FORM_STATUS: null,
   USER_POPULATE_FROM_LS: null,
@@ -24,6 +30,8 @@ export function populateUserFromLocalStorage (response) {
     response,
   }
 }
+
+
 
 /* * * * * * * */
 /*    FORMS    */
@@ -158,6 +166,90 @@ export function registerUserToBackendless (user) {
   return dispatch => {
     return dispatch(registerUser(user));
   };
+}
+
+
+
+/* * * * * * * * */
+/*   SEND BONG   */
+/* * * * * * * * */
+
+function sendBong (newUser) {
+  return dispatch => {
+    dispatch({
+      type: userActions.BONG_SEND_REQUEST,
+    });
+
+
+    const sendBongSuccess = (response) => {
+      response = getImmutableFromExoticJS(response);
+      dispatch({
+        type: userActions.BONG_SEND_SUCCESS,
+        response: response,
+        receivedAt: Date.now(),
+      })
+    };
+
+    const sendBongFail = (error) => {
+      dispatch({
+        type: userActions.BONG_SEND_FAIL,
+        error,
+      })
+    };
+
+
+    Backendless.UserService.update(newUser.toJS()).then(sendBongSuccess).catch(sendBongFail);
+  };
+}
+
+
+function shouldSendBong (state) {
+  if (state.getIn(['bong', 'status']) === 'fetching') {
+    return false
+  } else if (state.getIn(['bong', 'status']) === 'error') {
+    return false;
+  }
+
+  return true;
+}
+
+export function sendBongToApi (newUser) {
+  return (dispatch, getState) => {
+    if (shouldSendBong(getState())) {
+      return dispatch(sendBong(newUser));
+    }
+  };
+}
+
+
+/* * * * * * * * */
+/*   SET BONG    */
+/* * * * * * * * */
+
+export function setGroupGame (game, team, value) {
+  return {
+    type: userActions.SET_GROUP_GAME,
+    game,
+    team,
+    value,
+  }
+}
+
+export function setGroupOrder (group, order) {
+  return {
+    type: userActions.SET_GROUP_ORDER,
+    group,
+    order,
+  }
+}
+
+export function setPlayoffGame (stage, index, value) {
+  return {
+    type: userActions.SET_PLAYOFF_GAME,
+    stage,
+    index,
+    value,
+  }
 }
 
 

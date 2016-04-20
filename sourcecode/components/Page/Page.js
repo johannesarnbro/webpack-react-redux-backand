@@ -10,13 +10,13 @@ class Page extends Component {
 
   render () {
     const status = this.props.tippers.get('status');
-    const response = this.props.tippers.get('response');
+    const tippers = this.props.tippers.get('response');
 
     switch (status) {
       case 'done':
-        if (response.size) {
-          const users = response.map(item => {
-            return (<li key={item.get('id')}>
+        if (tippers.size) {
+          const users = tippers.map(item => {
+            return (<li key={item.get('objectId')}>
               {item.get('firstName')} {item.get('lastName')} :
               {item.get('score')} points
             </li>);

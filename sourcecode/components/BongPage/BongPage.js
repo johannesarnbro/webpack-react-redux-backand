@@ -10,9 +10,10 @@ const handlers = (props) => {
   return {
     sendBong: (e) => {
       e.preventDefault();
-      const user = props.user.get('user').toJS();
-      const bong = props.bong.get('tempBong');
-      props.actions.sendBongToApi(user, bong);
+      const user = props.user.get('user');
+      const bong = JSON.stringify(props.user.get('tempBong'));
+      const newUser = user.set('bong', bong);
+      props.actions.sendBongToApi(newUser);
     },
     change: (e) => {
 
@@ -36,39 +37,36 @@ class BongPage extends Component {
     this.props.actions.fetchLocationsFromApi();
     this.props.actions.fetchTeamsFromApi();
     this.props.actions.fetchTippersFromApi();
-    //this.props.actions.fetchBongFromApi(this.props.user.getIn(['user', 'userId']));
   }
 
   render () {
-    const { games, locations, teams, bong } = this.props;
+    const { games, locations, teams, user } = this.props;
 
-    if (games.size
-      && locations.size
-      && teams.size
-      //&& bong.get('status') === 'done'
+    if (games.get('response')
+      && locations.get('response')
+      && teams.get('response')
     ) {
       return (
         <div>
           <div>BongPage!</div>
           <form>
             <BongGroupGames actions={this.props.actions}
-                            bong={this.props.bong}
                             games={this.props.games}
                             user={this.props.user}/>
             <BongGroups actions={this.props.actions}
-                        bong={this.props.bong}
                         games={this.props.games}
                         locations={this.props.locations}
-                        teams={this.props.teams}/>
+                        teams={this.props.teams}
+                        user={this.props.user}/>
             <BongPlayoffGames actions={this.props.actions}
-                              bong={this.props.bong}
                               games={this.props.games}
                               locations={this.props.locations}
-                              teams={this.props.teams}/>
+                              teams={this.props.teams}
+                              user={this.props.user}/>
             {
-              (Immutable.is(bong.get('bong'), bong.get('tempBong')))
-                ? (<button className={styles.disbaledButton} disabled='disabled'>Skicka</button>)
-                : (<button className={styles.button} onClick={this.handlers.sendBong}>Skicka</button>)
+              (Immutable.is(user.getIn(['user', 'bong']), user.get('tempBong')))
+                ? (<button className={styles.disbaledButton} disabled='disabled'>Envoyer</button>)
+                : (<button className={styles.button} onClick={this.handlers.sendBong}>Envoyer</button>)
             }
           </form>
         </div>
@@ -83,7 +81,6 @@ class BongPage extends Component {
 
 BongPage.propTypes = {
   actions: PropTypes.object,
-  bong: ImmutablePropTypes.map,
   games: ImmutablePropTypes.map,
   locations: ImmutablePropTypes.map,
   teams: ImmutablePropTypes.map,
