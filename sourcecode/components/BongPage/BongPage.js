@@ -35,6 +35,7 @@ class BongPage extends Component {
     this.props.actions.fetchGamesFromApi();
     this.props.actions.fetchLocationsFromApi();
     this.props.actions.fetchTeamsFromApi();
+    this.props.actions.fetchTippersFromApi();
     //this.props.actions.fetchBongFromApi(this.props.user.getIn(['user', 'userId']));
   }
 

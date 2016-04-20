@@ -1,5 +1,6 @@
 import keyMirror from 'keyMirror';
-import Backendless from 'utils/backendless';
+import Backendless from 'backendless';
+import getImmutableFromExoticJS from 'get-immutable-from-exotic-js';
 
 const locationActions = keyMirror({
   LOCATIONS_FETCH_REQUEST: null,
@@ -15,42 +16,26 @@ export function populateLocationsFromLocalStorage (response) {
   }
 }
 
-function locationsFetchRequest () {
-  return {
-    type: locationActions.LOCATIONS_FETCH_REQUEST,
-  }
-}
-
-function locationsFetchSuccess (response) {
-  return {
-    type: locationActions.LOCATIONS_FETCH_SUCCESS,
-    response: response.data,
-    receivedAt: Date.now(),
-  }
-}
-
-function locationsFetchFail (error) {
-  return {
-    type: locationActions.LOCATIONS_FETCH_FAIL,
-    error,
-  }
-}
-
 function fetchLocations () {
   return dispatch => {
-    dispatch(locationsFetchRequest());
+    dispatch({
+      type: locationActions.LOCATIONS_FETCH_REQUEST,
+    });
 
-    const dataFetched = (data) => {
-      dispatch(locationsFetchSuccess(data))
+    const dataFetched = (response) => {
+      response = getImmutableFromExoticJS(response.data);
+      dispatch({
+        type: locationActions.LOCATIONS_FETCH_SUCCESS,
+        response: response,
+        receivedAt: Date.now(),
+      })
     };
 
-    const gotError = (err) => {
-      dispatch(locationsFetchFail(err))
-    };
-
-    function Locations(args = {}) {
-      this.stadium = args.stadium || '';
-      this.city = args.city || '';
+    const gotError = (error) => {
+      dispatch({
+        type: locationActions.LOCATIONS_FETCH_FAIL,
+        error,
+      })
     };
 
     const query = {
@@ -59,19 +44,14 @@ function fetchLocations () {
       },
     };
 
-    const locations = Backendless.Persistence.of(Locations);
-    locations.find(query, new Backendless.Async(dataFetched, gotError));
+    Backendless.Persistence.of('locations').find(query).then(dataFetched).catch(gotError);
   };
 }
 
 function shouldFetchLocations (state) {
-  //if (!state.getIn(['pages', slug])) {
-  //  return true
-  //}
   if (state.getIn(['locations', 'status']) === 'fetching') {
     return false
-  }
-  if (state.getIn(['locations', 'status']) === 'error') {
+  } else if (state.getIn(['locations', 'status']) === 'error') {
     return false;
   }
 

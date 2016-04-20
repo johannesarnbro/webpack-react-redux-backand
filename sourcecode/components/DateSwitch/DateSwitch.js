@@ -8,7 +8,6 @@ import BongPage from 'components/BongPage/BongPage';
 class DateSwitch extends Component {
 
   render () {
-
     if (isBeforeDeadline()) {
       if (this.props.user.get('user')) {
         return (

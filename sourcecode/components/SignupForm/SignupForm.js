@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { isBeforeDeadline } from 'utils/dates';
 import baseBongObject from 'utils/baseBongObject';
-import Backendless from 'utils/backendless';
+import Backendless from 'backendless';
 //import styles from './LoginPage.less';
 
 

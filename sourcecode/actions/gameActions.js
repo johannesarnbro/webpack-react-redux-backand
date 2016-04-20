@@ -1,5 +1,6 @@
 import keyMirror from 'keyMirror';
-import Backendless from 'utils/backendless';
+import Backendless from 'backendless';
+import getImmutableFromExoticJS from 'get-immutable-from-exotic-js';
 
 const gameActions = keyMirror({
   GAMES_FETCH_REQUEST: null,
@@ -15,43 +16,26 @@ export function populateGamesFromLocalStorage (response) {
   }
 }
 
-function gamesFetchRequest () {
-  return {
-    type: gameActions.GAMES_FETCH_REQUEST,
-  }
-}
-
-function gamesFetchSuccess (response) {
-  return {
-    type: gameActions.GAMES_FETCH_SUCCESS,
-    response: response.data,
-    receivedAt: Date.now(),
-  }
-}
-
-function gamesFetchFail (error) {
-  return {
-    type: gameActions.GAMES_FETCH_FAIL,
-    error,
-  }
-}
-
 function fetchGames () {
   return dispatch => {
-    dispatch(gamesFetchRequest());
+    dispatch({
+      type: gameActions.GAMES_FETCH_REQUEST,
+    });
 
-    const dataFetched = (data) => {
-      dispatch(gamesFetchSuccess(data))
+    const dataFetched = (response) => {
+      response = getImmutableFromExoticJS(response.data);
+      dispatch({
+        type: gameActions.GAMES_FETCH_SUCCESS,
+        response: response,
+        receivedAt: Date.now(),
+      })
     };
 
-    const gotError = (err) => {
-      dispatch(gamesFetchFail(err))
-    };
-
-    function Games (args = {}) {
-      this.name = args.name || '';
-      this.code = args.code || '';
-      this.group = args.group || '';
+    const gotError = (error) => {
+      dispatch({
+        type: gameActions.GAMES_FETCH_FAIL,
+        error,
+      })
     };
 
     const query = {
@@ -61,8 +45,7 @@ function fetchGames () {
       },
     };
 
-    const games = Backendless.Persistence.of(Games);
-    games.find(query, new Backendless.Async(dataFetched, gotError));
+    Backendless.Persistence.of('games').find(query).then(dataFetched).catch(gotError);
   }
 };
 

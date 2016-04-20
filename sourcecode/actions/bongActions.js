@@ -1,5 +1,5 @@
 import keyMirror from 'keyMirror';
-import Backendless from 'utils/backendless';
+import Backendless from 'backendless';
 
 const bongActions = keyMirror({
   BONG_FETCH_REQUEST: null,

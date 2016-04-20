@@ -12,9 +12,10 @@ import { DateSwitch } from 'containers/DateSwitchContainer';
 import { SignupPage } from 'containers/SignupPageContainer';
 import { LoginPage } from 'containers/LoginPageContainer';
 
-import Backendless from 'utils/backendless';
+import Backendless from 'backendless';
 import config from 'webpack-config-loader!conf';
 Backendless.initApp(config.AppID, config.AppSecret, config.AppVersion);
+Backendless.enablePromises();
 
 import installDevTools from 'immutable-devtools';
 installDevTools(Immutable);

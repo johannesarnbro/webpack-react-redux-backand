@@ -1,5 +1,6 @@
 import keyMirror from 'keyMirror';
-import Backendless from 'utils/backendless';
+import Backendless from 'backendless';
+import getImmutableFromExoticJS from 'get-immutable-from-exotic-js';
 
 const userActions = keyMirror({
   USER_LOGIN_REQUEST: null,
@@ -13,8 +14,16 @@ const userActions = keyMirror({
   USER_REGISTER_FAIL: null,
   SET_FORM_INPUT: null,
   SET_FORM_STATUS: null,
+  USER_POPULATE_FROM_LS: null,
 });
 
+
+export function populateUserFromLocalStorage (response) {
+  return {
+    type: userActions.USER_POPULATE_FROM_LS,
+    response,
+  }
+}
 
 /* * * * * * * */
 /*    FORMS    */
@@ -62,8 +71,7 @@ function logoutUser (user) {
       })
     };
 
-    const callback = new Backendless.Async(userLogoutSuccess, userLogoutFail);
-    Backendless.UserService.logout(callback);
+    Backendless.UserService.logout().then(userLogoutSuccess).catch(userLogoutFail);
 
   };
 }
@@ -87,10 +95,11 @@ function loginUser (user) {
       type: userActions.USER_LOGIN_REQUEST,
     });
 
-    const userLoginSuccess = (user) => {
+    const userLoginSuccess = (response) => {
+      response = getImmutableFromExoticJS(response);
       dispatch({
         type: userActions.USER_LOGIN_SUCCESS,
-        response: user,
+        response,
         receivedAt: Date.now(),
       })
     };
@@ -102,9 +111,7 @@ function loginUser (user) {
       })
     };
 
-    const callback = new Backendless.Async(userLoginSuccess, userLoginFail);
-    Backendless.UserService.login(user.email, user.password, true, callback);
-
+    Backendless.UserService.login(user.email, user.password).then(userLoginSuccess).catch(userLoginFail);
   };
 }
 
@@ -127,10 +134,11 @@ function registerUser (user) {
       type: userActions.USER_REGISTER_REQUEST,
     });
 
-    const userRegisterSuccess = (user) => {
+    const userRegisterSuccess = (response) => {
+      response = getImmutableFromExoticJS(response);
       dispatch({
         type: userActions.USER_REGISTER_SUCCESS,
-        response: user,
+        response,
         receivedAt: Date.now(),
       })
     };
@@ -142,8 +150,7 @@ function registerUser (user) {
       })
     };
 
-    const callback = new Backendless.Async( userRegisterSuccess, userRegisterFail );
-    Backendless.UserService.register( user, callback);
+    Backendless.UserService.register(user).then(userRegisterSuccess).catch(userRegisterFail);
   };
 }
 

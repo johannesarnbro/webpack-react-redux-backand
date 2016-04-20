@@ -15,16 +15,12 @@ const handlers = (props) => {
         password,
       };
 
-      if (email && password) {
-        props.actions.loginUserToBackendless(user);
-      } else {
-        props.actions.setFormStatus('login', 'Enter your email and password');
-      }
+      props.actions.loginUserToBackendless(user);
     },
     change: (e) => {
       const { name, value } = e.target;
       props.actions.setFormInput('login', name, value);
-    },
+    }, 
   }
 };
 

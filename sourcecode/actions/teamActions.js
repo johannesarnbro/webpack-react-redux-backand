@@ -1,5 +1,6 @@
 import keyMirror from 'keyMirror';
-import Backendless from 'utils/backendless';
+import Backendless from 'backendless';
+import getImmutableFromExoticJS from 'get-immutable-from-exotic-js';
 
 const teamActions = keyMirror({
   TEAMS_FETCH_REQUEST: null,
@@ -15,43 +16,26 @@ export function populateTeamsFromLocalStorage (response) {
   }
 }
 
-function teamsFetchRequest () {
-  return {
-    type: teamActions.TEAMS_FETCH_REQUEST,
-  }
-}
-
-function teamsFetchSuccess (response) {
-  return {
-    type: teamActions.TEAMS_FETCH_SUCCESS,
-    response: response.data,
-    receivedAt: Date.now(),
-  }
-}
-
-function teamsFetchFail (error) {
-  return {
-    type: teamActions.TEAMS_FETCH_FAIL,
-    error,
-  }
-}
-
 function fetchTeams () {
   return dispatch => {
-    dispatch(teamsFetchRequest());
+    dispatch({
+      type: teamActions.TEAMS_FETCH_REQUEST,
+    });
 
-    const dataFetched = (data) => {
-      dispatch(teamsFetchSuccess(data))
+    const dataFetched = (response) => {
+      response = getImmutableFromExoticJS(response.data);
+      dispatch({
+        type: teamActions.TEAMS_FETCH_SUCCESS,
+        response: response,
+        receivedAt: Date.now(),
+      })
     };
 
-    const gotError = (err) => {
-      dispatch(teamsFetchFail(err))
-    };
-
-    function Teams (args = {}) {
-      this.name = args.name || '';
-      this.code = args.code || '';
-      this.group = args.group || '';
+    const gotError = (error) => {
+      dispatch({
+        type: teamActions.TEAMS_FETCH_FAIL,
+        error,
+      })
     };
 
     const query = {
@@ -60,19 +44,14 @@ function fetchTeams () {
       },
     };
 
-    const teams = Backendless.Persistence.of(Teams);
-    teams.find(query, new Backendless.Async(dataFetched, gotError));
+    Backendless.Persistence.of('teams').find(query).then(dataFetched).catch(gotError);
   }
 };
 
 function shouldFetchTeams (state) {
-  //if (!state.getIn(['pages', slug])) {
-  //  return true
-  //}
   if (state.getIn(['teams', 'status']) === 'fetching') {
     return false
-  }
-  if (state.getIn(['teams', 'status']) === 'error') {
+  } else if (state.getIn(['teams', 'status']) === 'error') {
     return false;
   }
 

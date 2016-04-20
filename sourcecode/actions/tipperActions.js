@@ -1,5 +1,6 @@
 import keyMirror from 'keyMirror';
-import backand from 'api/backand';
+import Backendless from 'backendless';
+import getImmutableFromExoticJS from 'get-immutable-from-exotic-js';
 
 const tipperActions = keyMirror({
   TIPPERS_FETCH_REQUEST: null,
@@ -18,37 +19,35 @@ export function populateTippersFromLocalStorage (response) {
 
 /* FETCH TIPPERS */
 
-function tippersFetchRequest () {
-  return {
-    type: tipperActions.TIPPERS_FETCH_REQUEST,
-  }
-}
-
-function tippersFetchSuccess (response) {
-  return {
-    type: tipperActions.TIPPERS_FETCH_SUCCESS,
-    response: response,
-    receivedAt: Date.now(),
-  }
-}
-
-function tippersFetchFail (error) {
-  return {
-    type: tipperActions.TIPPERS_FETCH_FAIL,
-    error,
-  }
-}
-
-function fetchTippers (state) {
+function fetchTippers () {
   return dispatch => {
-    dispatch(tippersFetchRequest());
-    return backand.get(`/1/query/data/users`)
-      .then(function (json) {
-        dispatch(tippersFetchSuccess(json));
+    dispatch({
+      type: tipperActions.TIPPERS_FETCH_REQUEST,
+    });
+
+    const dataFetched = (response) => {
+      response = getImmutableFromExoticJS(response.data);
+      dispatch({
+        type: tipperActions.TIPPERS_FETCH_SUCCESS,
+        response: response,
+        receivedAt: Date.now(),
       })
-      .catch(function (error) {
-        dispatch(tippersFetchFail(error));
-      });
+    };
+
+    const gotError = (error) => {
+      dispatch({
+        type: tipperActions.TIPPERS_FETCH_FAIL,
+        error,
+      })
+    };
+
+    const query = {
+      options: {
+        pageSize: 99,
+      },
+    };
+
+    Backendless.Data.of(Backendless.User).find(query).then(dataFetched).catch(gotError);
   };
 }
 
@@ -58,8 +57,7 @@ function shouldFetchTippers (state) {
   //}
   if (state.getIn(['tippers', 'status']) === 'fetching') {
     return false
-  }
-  if (state.getIn(['tippers', 'status']) === 'error') {
+  } else if (state.getIn(['tippers', 'status']) === 'error') {
     return false;
   }
 
@@ -68,9 +66,8 @@ function shouldFetchTippers (state) {
 
 export function fetchTippersFromApi () {
   return (dispatch, getState) => {
-    const state = getState();
-    if (shouldFetchTippers(state)) {
-      return dispatch(fetchTippers(state));
+    if (shouldFetchTippers(getState())) {
+      return dispatch(fetchTippers());
     }
   }
 }

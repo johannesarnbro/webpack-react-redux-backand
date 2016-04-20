@@ -4,8 +4,12 @@ export const copyStateToLocalStorage = (state, response) => {
   localStorage.setItem(state, JSON.stringify(response));
 };
 
+export const removeStateFromLocalStorage = (state) => {
+  localStorage.removeItem(state);
+};
+
 export const populateStoreFromLocalStorage = (actions) => {
-  const states = ['Bong', 'Games', 'Locations', 'Teams', 'Tippers'];
+  const states = ['Bong', 'Games', 'Locations', 'Teams', 'Tippers', 'User'];
 
   states.map(state => {
     if (localStorage.getItem(state.toLowerCase())) {
