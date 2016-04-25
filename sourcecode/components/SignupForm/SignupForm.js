@@ -19,6 +19,8 @@ const handlers = (props) => {
       user.email = email;
       user.password = password;
       user.bong = JSON.stringify(baseBongObject);
+      user.admin = false;
+      user.score = ',0';
 
       props.actions.registerUserToBackendless(user);
     },

@@ -8,6 +8,7 @@ import { syncHistory } from 'react-router-redux'
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from 'reducers'
 import AppContainer from 'containers/AppContainer';
+import { AnswerPage } from 'containers/AnswerPageContainer';
 import { DateSwitch } from 'containers/DateSwitchContainer';
 import { SignupPage } from 'containers/SignupPageContainer';
 import { LoginPage } from 'containers/LoginPageContainer';
@@ -46,6 +47,9 @@ ReactDOM.render(
           </Route>
           <Route path='/logga-in'>
             <IndexRoute component={LoginPage}/>
+          </Route>
+          <Route path='/ratt-rad'>
+            <IndexRoute component={AnswerPage}/>
           </Route>
           <Route path=':slug'>
             <IndexRoute component={DateSwitch}/>
