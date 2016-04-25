@@ -3,6 +3,8 @@ import {fromJS} from 'immutable';
 const worth = {
   groupGame: 1,
   groupGameFull: 4,
+  groupOrder: 3,
+  groupOrderOneOff: 1,
   playoff: {
     sixteen: 2,
     quarter: 4,
@@ -68,9 +70,24 @@ const updatePoints = (tippers, answer, actions) => {
 
 
 
-
+    // Loop group order
     bong.get('groupOrder').map((group, i) => {
+      const checked = document.querySelector(`#checkbox-${i}`).checked;
+      if (!checked) return false;
 
+      //Loop teams in group
+      group.map((team, place) => {
+        if (team === answer.getIn(['groupOrder', i, place])) {
+          // If team is in right place
+          points += worth.groupOrder;
+        } else if (team === answer.getIn(['groupOrder', i, place-1])) {
+          // If team is one off
+          points += worth.groupOrderOneOff;
+        } else if (team === answer.getIn(['groupOrder', i, place+1])) {
+          // If team is one off
+          points += worth.groupOrderOneOff;
+        }
+      });
     });
 
 

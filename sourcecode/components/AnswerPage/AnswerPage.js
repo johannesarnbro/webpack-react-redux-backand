@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 import BongGroupGames from 'components/BongGroupGames/BongGroupGames';
-import BongGroups from 'components/BongGroups/BongGroups';
+import AnswerBongGroups from 'components/AnswerBongGroups/AnswerBongGroups';
 import BongPlayoffGames from 'components/BongPlayoffGames/BongPlayoffGames';
 import updatePoints from 'utils/updatePoints';
 import styles from './AnswerPage.less';
@@ -61,11 +61,11 @@ class AnswerPage extends Component {
               <BongGroupGames actions={this.props.actions}
                               games={this.props.games}
                               user={this.props.user}/>
-              <BongGroups actions={this.props.actions}
-                          games={this.props.games}
-                          locations={this.props.locations}
-                          teams={this.props.teams}
-                          user={this.props.user}/>
+              <AnswerBongGroups actions={this.props.actions}
+                                games={this.props.games}
+                                locations={this.props.locations}
+                                teams={this.props.teams}
+                                user={this.props.user}/>
               <BongPlayoffGames actions={this.props.actions}
                                 games={this.props.games}
                                 locations={this.props.locations}
