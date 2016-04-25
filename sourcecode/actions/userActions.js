@@ -12,6 +12,9 @@ const userActions = keyMirror({
   USER_REGISTER_REQUEST: null,
   USER_REGISTER_SUCCESS: null,
   USER_REGISTER_FAIL: null,
+  USER_RESTORE_PASSWORD_REQUEST: null,
+  USER_RESTORE_PASSWORD_SUCCESS: null,
+  USER_RESTORE_PASSWORD_FAIL: null,
   BONG_SEND_REQUEST: null,
   BONG_SEND_SUCCESS: null,
   BONG_SEND_FAIL: null,
@@ -23,15 +26,12 @@ const userActions = keyMirror({
   USER_POPULATE_FROM_LS: null,
 });
 
-
 export function populateUserFromLocalStorage (response) {
   return {
     type: userActions.USER_POPULATE_FROM_LS,
     response,
   }
 }
-
-
 
 /* * * * * * * */
 /*    FORMS    */
@@ -90,9 +90,6 @@ export function logoutUserFromBackendless (user) {
   };
 }
 
-
-
-
 /* * * * * * * */
 /* LOGIN USER  */
 /* * * * * * * */
@@ -128,9 +125,6 @@ export function loginUserToBackendless (user) {
     return dispatch(loginUser(user));
   };
 }
-
-
-
 
 /* * * * * * * * */
 /* REGISTER USER */
@@ -168,7 +162,41 @@ export function registerUserToBackendless (user) {
   };
 }
 
+/* * * * * * * * * * */
+/* RECOVER PASSWORD  */
+/* * * * * * * * * * */
 
+function restorePassword (user) {
+  return dispatch => {
+    dispatch({
+      type: userActions.USER_RESTORE_PASSWORD_REQUEST,
+    });
+
+    const restorePasswordSuccess = (response) => {
+      response = getImmutableFromExoticJS(response);
+      dispatch({
+        type: userActions.USER_RESTORE_PASSWORD_SUCCESS,
+        response,
+        receivedAt: Date.now(),
+      })
+    };
+
+    const restorePasswordFail = (error) => {
+      dispatch({
+        type: userActions.USER_RESTORE_PASSWORD_FAIL,
+        error,
+      })
+    };
+
+    Backendless.UserService.restorePassword(user.email).then(restorePasswordSuccess).catch(restorePasswordFail);
+  };
+}
+
+export function restorePasswordFromBackendless (user) {
+  return dispatch => {
+    return dispatch(restorePassword(user));
+  };
+}
 
 /* * * * * * * * */
 /*   SEND BONG   */
@@ -179,7 +207,6 @@ function sendBong (newUser) {
     dispatch({
       type: userActions.BONG_SEND_REQUEST,
     });
-
 
     const sendBongSuccess = (response) => {
       response = getImmutableFromExoticJS(response);
@@ -197,11 +224,9 @@ function sendBong (newUser) {
       })
     };
 
-
     Backendless.UserService.update(newUser.toJS()).then(sendBongSuccess).catch(sendBongFail);
   };
 }
-
 
 function shouldSendBong (state) {
   if (state.getIn(['bong', 'status']) === 'fetching') {
@@ -220,7 +245,6 @@ export function sendBongToApi (newUser) {
     }
   };
 }
-
 
 /* * * * * * * * */
 /*   SET BONG    */
@@ -251,7 +275,5 @@ export function setPlayoffGame (stage, index, value) {
     value,
   }
 }
-
-
 
 export default userActions;

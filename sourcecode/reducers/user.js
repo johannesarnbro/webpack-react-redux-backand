@@ -7,6 +7,7 @@ const initialState = fromJS({
   forms: {
     login: {},
     signup: {},
+    restore: {},
   },
   user: '',
 });
