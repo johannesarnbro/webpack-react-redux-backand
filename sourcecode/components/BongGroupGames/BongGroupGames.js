@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, {Component, PropTypes} from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import styles from './BongGroupGames.less';
 
@@ -29,40 +29,50 @@ class BongGroupGames extends Component {
 
     const groupGames = games.filter(game => {
       return game.get('stage') === 'group';
-    }).sortBy(game => game.get('number')).map((game, i) => {
+    })
+    .sortBy(game => game.get('number'))
+    .groupBy(game => game.getIn(['home', 'group']))
+    .sortBy(group => group.getIn([0, 'home', 'group']))
+    .map(group => {
+      const groupedGames = group.map(game => {
+        const id = game.get('number');
+        const location = game.get('location').toJS();
+        const home = game.get('home').toJS();
+        const away = game.get('away').toJS();
+        const values = bong.getIn(['groupGames', id - 1]).toJS();
 
-      const id = game.get('number');
-      const location = game.get('location').toJS();
-      const home = game.get('home').toJS();
-      const away = game.get('away').toJS();
-      const values = bong.getIn(['groupGames', i]).toJS();
-
-      return (
-        <div key={id} className={styles.game}>
-          <span className={styles.city}>
-            {location.city}
-            ({location.stadium})
-          </span>
-          <div>
+        return (
+          <div key={id} className={styles.game}>
+            <span className={styles.city}>
+              {location.city}
+              ({location.stadium})
+            </span>
             <label htmlFor={`${id-1}-0`}>{home.name}</label>
             <input id={`${id-1}-0`}
                    type='text'
                    value={values[0]}
                    onChange={this.handlers.set}/>
-            -
+            <span className={styles.divider}>-</span>
             <input id={`${id-1}-1`}
                    type='text'
                    value={values[1]}
                    onChange={this.handlers.set}/>
             <label htmlFor={`${id-1}-1`}>{away.name}</label>
           </div>
+        );
+      });
+
+      return (
+        <div key={`${group.getIn([0, 'home', 'group'])}`} className={styles.group}>
+          <div className={styles.groupId}>{group.getIn([0, 'home', 'group'])}</div>
+          {groupedGames}
         </div>
       );
-    });
+
+    }).toArray();
 
     return (
-      <div>
-        GroupGames
+      <div className={styles.groupList}>
         {groupGames}
       </div>
     );

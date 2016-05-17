@@ -11,7 +11,6 @@ class App extends Component {
   }
 
   render () {
-
     return (
       <div className={styles.app}>
         <Header actions={this.props.actions}
