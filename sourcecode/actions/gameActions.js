@@ -55,8 +55,7 @@ function shouldFetchGames (state) {
   //}
   if (state.getIn(['games', 'status']) === 'fetching') {
     return false
-  }
-  if (state.getIn(['games', 'status']) === 'error') {
+  } else if (state.getIn(['games', 'status']) === 'error') {
     return false;
   }
 
