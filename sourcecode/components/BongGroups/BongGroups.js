@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, {Component, PropTypes} from 'react';
 import Immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Reorder from 'react-reorder';
-//import styles from './BongGroups.less';
+import styles from './BongGroups.less';
 
 const handlers = (props) => {
   return {
@@ -36,7 +36,7 @@ class BongGroups extends Component {
     const handlers = this.handlers;
 
     const groups = bong.get('groupOrder').map((group, i) => {
-      
+
       const groupIds = ['A', 'B', 'C', 'D', 'E', 'F'];
 
       const items = group.map(id => {
@@ -52,12 +52,12 @@ class BongGroups extends Component {
       const groupId = groupIds[i];
 
       return (
-        <div key={`group-${groupId}`}>
-          <p>{groupId}</p>
+        <div key={`group-${groupId}`} className={styles.group}>
+          <div className={styles.groupId}>Grupp {groupId}</div>
           <Reorder
             itemKey='key'
             lock='horizontal'
-            holdTime='100'
+            holdTime='50'
             list={items}
             callback={handlers.handleSort}
             listClass={`list-${i}`}
@@ -69,10 +69,12 @@ class BongGroups extends Component {
     });
 
     return (
-      <div>
-        Groups
-        {groups}
-      </div>
+      <section className={styles.groupGames}>
+        <h1 className={styles.stageHeader}>Grupplaceringar</h1>
+        <div className={styles.groupList}>
+          {groups}
+        </div>
+      </section>
     );
   }
 }

@@ -1,12 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React, {Component, PropTypes} from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import styles from './BongPlayoffGamesSixteens.less';
+import styles from './../BongPlayoffGames/BongPlayoffGames.less';
 
 class BongPlayoffGamesSixteens extends Component {
 
   render () {
 
-    const { bong, gamesSixteens, handlers, teams } = this.props;
+    const {bong, gamesSixteens, handlers, teams} = this.props;
 
     const teamsLeft = teams.filter(team => {
       return !bong.getIn(['playoff', 'sixteen']).find(id => id == team.get('objectId'));
@@ -28,7 +28,8 @@ class BongPlayoffGamesSixteens extends Component {
           </span>
           <select name={`select_${j}`}
                   id={`select_${j}`}
-                  onChange={handlers.setSixteen}>
+                  onChange={handlers.setSixteen}
+                  className={(home) ? styles.hasValue : ''}>
             {(home) ? <option value={home.get('objectId')}>{home.get('name')}</option> : false}
             <option value=''>-</option>
             {teamsLeft.map(team => {
@@ -54,7 +55,8 @@ class BongPlayoffGamesSixteens extends Component {
           <label htmlFor={`radio_sixteen_${j+1}`}/>
           <select name={`select_${j+1}`}
                   id={`select_${j+1}`}
-                  onChange={handlers.setSixteen}>
+                  onChange={handlers.setSixteen}
+                  className={(away) ? styles.hasValue : ''}>
             {(away) ? <option value={away.get('objectId')}>{away.get('name')}</option> : false}
             <option value=''>-</option>
             {teamsLeft.map(team => {
@@ -69,8 +71,10 @@ class BongPlayoffGamesSixteens extends Component {
 
     return (
       <div>
-        Sixteens ->
-        {sixteens}
+        <h1 className={styles.stageHeader}>Åttondelsfinaler</h1>
+        <section className={styles.stage}>
+          {sixteens}
+        </section>
       </div>
     );
   }

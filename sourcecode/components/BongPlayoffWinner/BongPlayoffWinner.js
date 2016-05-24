@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-//import styles from './BongPlayoffWinner.less';
+import styles from './../BongPlayoffGames/BongPlayoffGames.less';
 
 class BongPlayoffGamesWinner extends Component {
 
@@ -9,14 +9,15 @@ class BongPlayoffGamesWinner extends Component {
     const { bong, teams } = this.props;
 
     const id = bong.getIn(['playoff', 'winner', 0]);
-    const winner = teams.find(team => team.get('id') == id);
-
+    const winner = teams.find(team => team.get('objectId') == id);
 
     return (
-      <div>
-        Winner ->
-        {(winner) ? <p>{winner.get('name')}</p> : false}
-      </div>
+      <section>
+        <h1 className={styles.stageHeader}>Vinnare!</h1>
+        <div>
+          {(winner) ? <p className={styles.winner}>{winner.get('name')}</p> : false}
+        </div>
+      </section>
     );
   }
 }

@@ -51,12 +51,14 @@ class BongGroupGames extends Component {
             <input id={`${id-1}-0`}
                    type='text'
                    value={values[0]}
-                   onChange={this.handlers.set}/>
+                   onChange={this.handlers.set}
+                   className={(values[0]) ? styles.hasValue : ''}/>
             <span className={styles.divider}>-</span>
             <input id={`${id-1}-1`}
                    type='text'
                    value={values[1]}
-                   onChange={this.handlers.set}/>
+                   onChange={this.handlers.set}
+                   className={(values[1]) ? styles.hasValue : ''}/>
             <label htmlFor={`${id-1}-1`}>{away.name}</label>
           </div>
         );
@@ -64,7 +66,7 @@ class BongGroupGames extends Component {
 
       return (
         <div key={`${group.getIn([0, 'home', 'group'])}`} className={styles.group}>
-          <div className={styles.groupId}>{group.getIn([0, 'home', 'group'])}</div>
+          <div className={styles.groupId}>Grupp {group.getIn([0, 'home', 'group'])}</div>
           {groupedGames}
         </div>
       );
@@ -72,9 +74,12 @@ class BongGroupGames extends Component {
     }).toArray();
 
     return (
-      <div className={styles.groupList}>
-        {groupGames}
-      </div>
+      <section className={styles.groupGames}>
+        <h1 className={styles.stageHeader}>Gruppspelsmatcher</h1>
+        <div className={styles.groupList}>
+          {groupGames}
+        </div>
+      </section>
     );
   }
 }

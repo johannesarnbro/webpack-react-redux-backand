@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import styles from './BongPlayoffGamesSemis.less';
+import styles from './../BongPlayoffGames/BongPlayoffGames.less';
 
 class BongPlayoffGamesSemis extends Component {
 
@@ -24,37 +24,41 @@ class BongPlayoffGamesSemis extends Component {
             {location.city} ({location.stadium})
           </span>
           {(home)
-            ? <div>
+            ? <div className={styles.team}>
+            <p className={styles.teamName}>{home.get('name')}</p>
             <input type='radio'
                    name={`radio_semi_${i}`}
                    id={`radio_semi_${j}`}
                    onChange={handlers.setFinal}
                    value={(home) ? home.get('objectId') : ''}
                    checked={(checked && checked === homeId)}/>
-            <label htmlFor={`radio_semi_${j}`}>{home.get('name')}</label>
+            <label htmlFor={`radio_semi_${j}`}></label>
           </div>
-            : false}
+            : <div className={styles.team}></div>}
           -
           {(away)
-            ? <div>
+            ? <div className={styles.team}>
               <input type='radio'
                      name={`radio_semi_${i}`}
                      id={`radio_semi_${j+1}`}
                      onChange={handlers.setFinal}
                      value={(away) ? away.get('objectId') : ''}
                      checked={(checked && checked === awayId)}/>
-              <label htmlFor={`radio_semi_${j+1}`}>{away.get('name')}</label>
+              <label htmlFor={`radio_semi_${j+1}`}></label>
+              <p className={styles.teamName}>{away.get('name')}</p>
             </div>
-            : false}
+            : <div className={styles.team}></div>}
         </div>
       );
     });
 
     return (
-      <div>
-        Semis ->
-        {semis}
-      </div>
+      <section>
+        <h1 className={styles.stageHeader}>Semifinaler</h1>
+        <div className={styles.stage}>
+          {semis}
+        </div>
+      </section>
     );
   }
 }

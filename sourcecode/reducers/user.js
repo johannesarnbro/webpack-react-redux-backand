@@ -10,6 +10,7 @@ const initialState = fromJS({
     restore: {},
   },
   user: '',
+  status: '',
 });
 
 const setFormInput = (state, action) => {
@@ -66,16 +67,19 @@ function user (state = initialState, action) {
       return state.merge(fromJS({
         tempBong: bongSentBong,
         user: bongSentUser,
+        status: 'bongSent',
       }));
 
     case actions.BONG_SEND_FAIL:
       return state;
 
     case actions.SET_GROUP_GAME:
-      return state.setIn(['tempBong', 'groupGames', action.game, action.team], action.value);
+      const tempGroupGameState = state.set('status', 'bongChanged');
+      return tempGroupGameState.setIn(['tempBong', 'groupGames', action.game, action.team], action.value);
 
     case actions.SET_GROUP_ORDER:
-      return state.setIn(['tempBong', 'groupOrder', action.group], action.order);
+      const tempGroupOrderState = state.set('status', 'bongChanged');
+      return tempGroupOrderState.setIn(['tempBong', 'groupOrder', action.group], action.order);
 
     case actions.SET_PLAYOFF_GAME:
       let tempState = state;
@@ -110,6 +114,7 @@ function user (state = initialState, action) {
         });
       });
 
+      tempState = tempState.set('status', 'bongChanged');
       return tempState.setIn(['tempBong', 'playoff', action.stage, action.index], action.value);
 
     case actions.SET_FORM_INPUT:

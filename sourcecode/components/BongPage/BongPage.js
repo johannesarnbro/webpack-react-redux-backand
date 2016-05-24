@@ -63,11 +63,13 @@ class BongPage extends Component {
                               locations={this.props.locations}
                               teams={this.props.teams}
                               user={this.props.user}/>
-            {
-              (Immutable.is(user.getIn(['user', 'bong']), user.get('tempBong')))
-                ? (<button className={styles.disbaledButton} disabled='disabled'>Envoyer</button>)
-                : (<button className={styles.button} onClick={this.handlers.sendBong}>Envoyer</button>)
-            }
+            <div className={styles.send}>
+              {
+                (Immutable.is(user.getIn(['user', 'bong']), user.get('tempBong')) || user.get('status') === 'bongSent')
+                  ? (<button className={styles.disabledButton} disabled='disabled'>Bongen är sparad</button>)
+                  : (<button className={styles.button} onClick={this.handlers.sendBong}>Spara bongen</button>)
+              }
+            </div>
           </form>
         </div>
       );

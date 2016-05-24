@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import styles from './BongPlayoffGamesQuarters.less';
+import styles from './../BongPlayoffGames/BongPlayoffGames.less';
 
 class BongPlayoffGamesQuarters extends Component {
 
@@ -44,37 +44,41 @@ class BongPlayoffGamesQuarters extends Component {
             {location.city} ({location.stadium})
           </span>
           {(home)
-            ? <div>
+            ? <div className={styles.team}>
+            <p className={styles.teamName}>{home.get('name')}</p>
             <input type='radio'
                    name={`radio_quarter_${i}`}
                    id={`radio_quarter_${j}`}
                    onChange={handlers.setSemi}
                    value={(home) ? home.get('objectId') : ''}
                    checked={(checked && checked === homeId)}/>
-            <label htmlFor={`radio_quarter_${j}`}>{home.get('name')}</label>
+            <label htmlFor={`radio_quarter_${j}`}></label>
           </div>
-            : false}
+            : <div className={styles.team}></div>}
           -
           {(away)
-            ? <div>
+            ? <div className={styles.team}>
             <input type='radio'
                    name={`radio_quarter_${i}`}
                    id={`radio_quarter_${j+1}`}
                    onChange={handlers.setSemi}
                    value={(away) ? away.get('objectId') : ''}
                    checked={(checked && checked === awayId)}/>
-            <label htmlFor={`radio_quarter_${j+1}`}>{away.get('name')}</label>
+            <label htmlFor={`radio_quarter_${j+1}`}></label>
+            <p className={styles.teamName}>{away.get('name')}</p>
           </div>
-            : false}
+            : <div className={styles.team}></div>}
         </div>
       );
     });
 
     return (
-      <div>
-        Quarters ->
-        {quarters}
-      </div>
+      <section>
+        <h1 className={styles.stageHeader}>Kvartsfinaler</h1>
+        <div className={styles.stage}>
+          {quarters}
+        </div>
+      </section>
     );
   }
 }

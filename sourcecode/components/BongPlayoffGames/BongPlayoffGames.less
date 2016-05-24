@@ -1,11 +1,135 @@
 @import '../../styles/common';
 
-.game {
-    font-size: 14px;
-    margin: 5px 10px;
+.stageHeader {
+  font: @font-heading;
+  width: 100%;
+  font-size: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  text-transform: uppercase;
+  color: @color-black;
+  //background-color: fade(@color-primary, 20%);
+  border-bottom: 2px dashed @color-black;
+  margin: 30px 0;
 }
 
-.city {
+.stage {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .game {
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    @media @tabletAndDown {
+      width: 100%;
+    }
+  }
+
+  .city {
+    width: 100%;
+    text-align: center;
     font-size: 12px;
-    color: #999999;
+    color: fade(@color-text, 60%);
+    margin-bottom: 5px;
+
+    & span:first-child {
+      display: block;
+    }
+  }
+
+  .team {
+    display: flex;
+    align-items: center;
+    width: 45%;
+    height: 50px;
+    font-size: 13px;
+
+    &:first-of-type {
+      justify-content: flex-end;
+    }
+  }
+
+  select {
+    margin: 0;
+    border: 1px dashed fade(@color-black, 50%);
+    border-radius: 25px;
+    padding: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    white-space: normal;
+    background: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    height: 50px;
+    width: 100px;
+    font-size: 13px;
+    text-align: center;
+
+    &:focus {
+      border: 1px dashed @color-black;
+    }
+
+    &.hasValue {
+      border: 1px solid @color-black;
+    }
+  }
+
+  label {
+    position: relative;
+    display: block;
+    margin: 5px;
+    border: 1px solid @color-black;
+    border-radius: 20px;
+    padding: 5px;
+    box-sizing: border-box;
+    height: 34px;
+    width: 34px;
+    text-align: center;
+
+  }
+
+  input[type="radio"] {
+    display: none;
+
+    &:checked + label {
+      background-color: @color-primary;
+    }
+
+    &:checked + label:before {
+      content: ' ';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 20px;
+      background-color: @color-white;
+    }
+
+    &:checked + label:after {
+      content: ' ';
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 12px;
+      height: 12px;
+      border-radius: 20px;
+      background-color: @color-secondary;
+    }
+  }
+}
+
+.winner {
+  font-size: 80px;
+  text-transform: uppercase;
+  text-align: center;
 }

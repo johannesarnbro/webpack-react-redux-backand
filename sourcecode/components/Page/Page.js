@@ -15,10 +15,17 @@ class Page extends Component {
     switch (status) {
       case 'done':
         if (tippers.size) {
-          const users = tippers.map(item => {
+          const orderedTippers = tippers.sortBy(item => {
+            let score = item.get('score') || '';
+            score = parseInt(score.split(',').reverse()[0]);
+            return score;
+          }).reverse();
+          const users = orderedTippers.map(item => {
+            if (item.get('firstName') === 'Rätt') return false;
+            const score = item.get('score').split(',').reverse()[0];
             return (<li key={item.get('objectId')}>
               {item.get('firstName')} {item.get('lastName')} :
-              {item.get('score')} points
+              {score} points
             </li>);
           });
 

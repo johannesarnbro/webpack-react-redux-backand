@@ -5,7 +5,7 @@ import BongPlayoffGamesQuarters from 'components/BongPlayoffGamesQuarters/BongPl
 import BongPlayoffGamesSemis from 'components/BongPlayoffGamesSemis/BongPlayoffGamesSemis';
 import BongPlayoffGamesFinal from 'components/BongPlayoffGamesFinal/BongPlayoffGamesFinal';
 import BongPlayoffWinner from 'components/BongPlayoffWinner/BongPlayoffWinner';
-//import styles from './BongPlayoffGames.less';
+import styles from './BongPlayoffGames.less';
 
 const handlers = (props) => {
   return {
@@ -61,8 +61,7 @@ class BongPlayoffGames extends Component {
     const handlers = this.handlers;
 
     return (
-      <div>
-        GroupGames
+      <div className={styles.playoffList}>
         <BongPlayoffGamesSixteens bong={bong}
                                   gamesSixteens={gamesSixteens}
                                   locations={locations}
