@@ -1,66 +1,42 @@
 @import '../../styles/common';
 
-.base {
-    lost-utility: clearfix;
-    margin-bottom: 80px;
+.tipperListSection {
+  width: 100%;
+  max-width: @desktop-max-width;
 }
 
-.header {
-    lost-column: 6/12;
-    lost-offset: 0/12;
-    .typography-mixin;
-    margin-bottom: 40px;
+.tipperList {
+  max-width: 500px;
+  margin: 0 auto 40px;
 }
 
-.main {
-    lost-column: 6/12;
-    lost-offset: 0/12;
+.tipper {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: @color-text;
+  padding: 5px;
+  border-bottom: 1px dashed @color-text;
+
+  &:hover {
+    background-color: fade(@color-white, 20%);
+  }
 }
 
-.sub {
-    lost-column: 5/12 1;
-    lost-offset: -1/12;
-}
-
-.aside {
-    lost-column: 5/12;
-    lost-offset: -1/12;
-}
-
-.header,
-.main,
-.aside {
+.tipperName {
 
 }
 
-@media @desktopAndDown {
-    .base {
-        padding: 0 10px;
-    }
-
-
+.tipperScore {
+  color: @color-primary;
 }
 
-@media @tabletAndDown {
-    .header,
-    .main,
-    .sub,
-    .aside {
-        lost-column: 10/12;
-        lost-offset: -1/12;
-    }
-
-    .sub {
-        margin-bottom: 40px;
-    }
+.p {
+  //color: @color-text;
 }
 
-@media @mobile {
-    .header,
-    .main,
-    .sub,
-    .aside {
-        lost-column: 12/12;
-        lost-offset: 0/12;
-    }
+.message {
+  text-align: center;
+  font-size: 13px;
+  color: @color-text;
 }

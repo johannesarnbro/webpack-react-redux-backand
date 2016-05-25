@@ -10,6 +10,7 @@ import rootReducer from 'reducers'
 import AppContainer from 'containers/AppContainer';
 import { AnswerPage } from 'containers/AnswerPageContainer';
 import { DateSwitch } from 'containers/DateSwitchContainer';
+import { BongPage } from 'containers/BongPageContainer';
 import { SignupPage } from 'containers/SignupPageContainer';
 import { LoginPage } from 'containers/LoginPageContainer';
 
@@ -47,6 +48,9 @@ ReactDOM.render(
           </Route>
           <Route path='/logga-in'>
             <IndexRoute component={LoginPage}/>
+          </Route>
+          <Route path='/mitt-tipp'>
+            <IndexRoute component={BongPage}/>
           </Route>
           <Route path='/ratt-rad'>
             <IndexRoute component={AnswerPage}/>

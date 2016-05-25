@@ -58,7 +58,7 @@ function user (state = initialState, action) {
       return state.setIn(['forms', 'signup', 'status'], (action.error.message || ''));
 
     case actions.BONG_SEND_REQUEST:
-      return state;
+      return state.set('status', 'bongSending');
 
     case actions.BONG_SEND_SUCCESS:
       const bongSentBong = JSON.parse(action.response.get('bong'));

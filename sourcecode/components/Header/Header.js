@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-//import styles from './Header.less';
+import styles from './Header.less';
 
 const handlers = (props) => {
   return {
@@ -23,17 +23,16 @@ class Header extends Component {
     const { actions, user } = this.props;
 
     return (
-      <div>
-        <h1>Tippeligan</h1>
-        <Link to='/'>Accueil</Link>
-        {(user.get('user'))
-          ? (
-          <Link to={'/'} onClick={actions.logoutUserFromBackendless}>Se déconnecter</Link>
-        )
-          : (
-          <Link to={'/logga-in'}>Se connecter</Link>
-        )
-        }
+      <div className={styles.header}>
+        <Link to='/' className={styles.logo}>- Tippeligan 2016 -</Link>
+        <div className={styles.separator}></div>
+        {(user.get('user')) ? <Link to={'/mitt-tipp'} className={styles.buttonHighlight}>Mitt tipp</Link> : false}
+        {(user.get('user')) ? <Link to={'/'} className={styles.button} onClick={actions.logoutUserFromBackendless}>
+          Logga ut
+        </Link> : false}
+        {(!user.get('user')) ? <Link to={'/registrera'} className={styles.buttonHighlight}>
+          Registrera dig</Link> : false}
+        {(!user.get('user')) ? <Link to={'/logga-in'} className={styles.button}>Logga in</Link> : false}
       </div>
     );
   }

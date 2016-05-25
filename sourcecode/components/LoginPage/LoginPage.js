@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import LoginForm from 'components/LoginForm/LoginForm';
-//import styles from './LoginPage.less';
+import { Link } from 'react-router';
+import styles from './LoginPage.less';
 
 class LoginPage extends Component {
 
@@ -10,7 +11,10 @@ class LoginPage extends Component {
 
     if (user.get('user')) {
       return (
-        <p>Du är inloggad som {user.getIn(['user', 'firstName'])}</p>
+        <p className={styles.message}>
+          Du är inloggad som {user.getIn(['user', 'firstName'])} <Link to={'/'} className={styles.toStart}>
+          Till startsidan</Link>
+        </p>
       )
     } else {
       return (

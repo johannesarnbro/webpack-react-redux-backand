@@ -71,7 +71,12 @@ class BongPlayoffGamesSixteens extends Component {
 
     return (
       <div>
-        <h1 className={styles.stageHeader}>Åttondelsfinaler</h1>
+        <h1 className={styles.stageHeader}>
+          Åttondelsfinaler
+          <div>I åttondelsfinalerna är det frihet under ansvar som gäller. Alla möjliga och omöjliga matchkombinationer
+            är tillåtna. Ska du safe'a eller spela för maxpoäng, det är upp till dig. Poäng erhålls för varje lag som
+            tar sig vidare till åttondelsfinal.</div>
+        </h1>
         <section className={styles.stage}>
           {sixteens}
         </section>

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-//import styles from './DateSwitch.less';
+import styles from './Page.less';
 
 class Page extends Component {
 
@@ -23,28 +23,33 @@ class Page extends Component {
           const users = orderedTippers.map(item => {
             if (item.get('firstName') === 'Rätt') return false;
             const score = item.get('score').split(',').reverse()[0];
-            return (<li key={item.get('objectId')}>
-              {item.get('firstName')} {item.get('lastName')} :
-              {score} points
+            let name = `${item.get('firstName')} `;
+            name += (item.get('nickName')) ? `"${item.get('nickName')}" ` : '';
+            name += `${item.get('lastName')}`;
+
+            return (<li key={item.get('objectId')} className={styles.tipper}>
+              <span className={styles.tipperName}>{name}:</span>
+              <span className={styles.tipperScore}>{score} <span className={styles.p}>p</span></span>
             </li>);
           });
 
           return (
-            <div>
-              <ul>
+            <section className={styles.tipperListSection}>
+              <ul className={styles.tipperList}>
                 {users}
               </ul>
-            </div>
+            </section>
           );
         } else {
           return false;
         }
         break;
       case 'fetching':
-        return <p>Fetching Items</p>;
+        return (<p className={styles.message}>Hämtar tippare...</p>);
         break;
       case 'error':
-        return <p>No Items</p>
+        return (<p className={styles.message}>
+          Hittade inga tippare, något måste blivit galet. Ladda om sidan och se om det hjälper.</p>);
         break;
       default:
         return false;

@@ -1,66 +1,26 @@
 @import '../../styles/common';
 
-.base {
-    lost-utility: clearfix;
-    margin-bottom: 80px;
+.message {
+  font-size: 13px;
+  color: @color-text;
+  text-align: center;
 }
 
-.header {
-    lost-column: 6/12;
-    lost-offset: 0/12;
-    .typography-mixin;
-    margin-bottom: 40px;
-}
+.toStart {
+  height: 45px;
+  min-width: 150px;
+  padding: 15px;
+  margin: 10px;
+  border: none;
+  border-radius: 40px;
+  color: @color-white;
+  background-color: @color-primary;
+  outline: none;
+  box-sizing: border-box;
+  font-size: 13px;
+  text-decoration: none;
 
-.main {
-    lost-column: 6/12;
-    lost-offset: 0/12;
-}
-
-.sub {
-    lost-column: 5/12 1;
-    lost-offset: -1/12;
-}
-
-.aside {
-    lost-column: 5/12;
-    lost-offset: -1/12;
-}
-
-.header,
-.main,
-.aside {
-
-}
-
-@media @desktopAndDown {
-    .base {
-        padding: 0 10px;
-    }
-
-
-}
-
-@media @tabletAndDown {
-    .header,
-    .main,
-    .sub,
-    .aside {
-        lost-column: 10/12;
-        lost-offset: -1/12;
-    }
-
-    .sub {
-        margin-bottom: 40px;
-    }
-}
-
-@media @mobile {
-    .header,
-    .main,
-    .sub,
-    .aside {
-        lost-column: 12/12;
-        lost-offset: 0/12;
-    }
+  &:hover {
+    background-color: @color-primary-light;
+  }
 }

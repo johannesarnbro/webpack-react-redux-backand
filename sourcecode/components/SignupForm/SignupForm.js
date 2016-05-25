@@ -3,7 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { isBeforeDeadline } from 'utils/dates';
 import baseBongObject from 'utils/baseBongObject';
 import Backendless from 'backendless';
-//import styles from './LoginPage.less';
+import styles from './SignupForm.less';
 
 
 const handlers = (props) => {
@@ -11,10 +11,11 @@ const handlers = (props) => {
     submit: (e) => {
       e.preventDefault();
 
-      const { firstName, lastName, email, password } = props.user.getIn(['forms', 'signup']).toJS() || '';
+      const { firstName, nickName, lastName, email, password } = props.user.getIn(['forms', 'signup']).toJS() || '';
 
       const user = new Backendless.User();
       user.firstName = firstName;
+      user.nickName = nickName;
       user.lastName = lastName;
       user.email = email;
       user.password = password;
@@ -48,26 +49,33 @@ class SignupForm extends Component {
 
     if (isBeforeDeadline()) {
       return (
-        <div>
-          <h1>S'inscrire</h1>
-          <form onSubmit={this.handlers.submit}>
-            <div>
-              <label htmlFor='firstName'>Prénom</label>
+        <section className={styles.loginSection}>
+          <form onSubmit={this.handlers.submit} className={styles.loginForm}>
+            <div className={styles.input}>
+              <label htmlFor='firstName'>Förnamn</label>
               <input type='text'
                      name='firstName'
                      id='firstName'
                      onKeyUp={this.handlers.change}
                      onBlur={this.handlers.change}/>
             </div>
-            <div>
-              <label htmlFor='lastName'>Nom de famille</label>
+            <div className={styles.input}>
+              <label htmlFor='nickName'>Smeknamn</label>
+              <input type='text'
+                     name='nickName'
+                     id='nickName'
+                     onKeyUp={this.handlers.change}
+                     onBlur={this.handlers.change}/>
+            </div>
+            <div className={styles.input}>
+              <label htmlFor='lastName'>Efternamn</label>
               <input type='text'
                      name='lastName'
                      id='lastName'
                      onKeyUp={this.handlers.change}
                      onBlur={this.handlers.change}/>
             </div>
-            <div>
+            <div className={styles.input}>
               <label htmlFor='email'>Email</label>
               <input type='email'
                      name='email'
@@ -75,30 +83,30 @@ class SignupForm extends Component {
                      onKeyUp={this.handlers.change}
                      onBlur={this.handlers.change}/>
             </div>
-            <div>
-              <label htmlFor='password'>Mot de passe</label>
+            <div className={styles.input}>
+              <label htmlFor='password'>Lösenord</label>
               <input type='password'
                      name='password'
                      id='password'
                      onKeyUp={this.handlers.change}
                      onBlur={this.handlers.change}/>
             </div>
-            <div>
-              <label htmlFor='confirmPassword'>Confirmez le mot de passe</label>
+            <div className={styles.input}>
+              <label htmlFor='confirmPassword'>Bekräfta lösenordet</label>
               <input type='password'
                      name='confirmPassword'
                      id='confirmPassword'
                      onKeyUp={this.handlers.change}
                      onBlur={this.handlers.change}/>
             </div>
-            <div>
-              <input type='submit' value={`S'inscrire`}/>
+            <div className={styles.input}>
+              <input type='submit' value={`Registrera dig`}/>
             </div>
             <div>
               {(status) ? <p>{status}</p> : ''}
             </div>
           </form>
-        </div>
+        </section>
       );
     } else {
       return (

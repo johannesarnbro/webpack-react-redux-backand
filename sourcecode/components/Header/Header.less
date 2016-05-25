@@ -1,6 +1,67 @@
 @import '../../styles/common';
 
-a {
-    display: inline-block;
-    margin: 10px;
+.header {
+  min-height: 80px;
+  display: flex;
+  width: 100%;
+  margin: 0 auto 40px;
+  max-width: @desktop-max-width;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.logo {
+  font: @font-text;
+  font-size: 16px;
+  text-decoration: none;
+  padding: 15px 5px;
+}
+
+.separator {
+  flex-grow: 1;
+}
+
+.buttonHighlight,
+.button {
+  margin: 5px;
+  padding: 13px;
+  border: 1px solid @color-black;
+  border-radius: 100px;
+  text-decoration: none;
+  font-size: 13px;
+  box-sizing: border-box;
+
+  &:hover {
+    //color: @color-white;
+    background-color: @color-white;
+    //border-color: @color-primary;
+  }
+}
+
+.buttonHighlight {
+  color: @color-white;
+  background-color: @color-secondary;
+  border-color: @color-secondary;
+
+  &:hover {
+    background-color: @color-secondary-light;
+    border-color: @color-secondary-light;
+  }
+}
+
+@media @mobile {
+  .header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .separator {
+    display: none;
+  }
+
+  .logo {
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
+  }
 }

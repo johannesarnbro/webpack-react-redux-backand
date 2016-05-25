@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-//import styles from './LoginPage.less';
+import styles from './LoginForm.less';
 
 
 const handlers = (props) => {
@@ -56,10 +56,9 @@ class LoginForm extends Component {
     const restoreStatus = user.getIn(['forms', 'restore', 'status']);
 
     return (
-      <div>
-        <h1>S'inscrire</h1>
-        <form onSubmit={this.handlers.login}>
-          <div>
+      <section className={styles.loginSection}>
+        <form onSubmit={this.handlers.login} className={styles.loginForm}>
+          <div className={styles.input}>
             <label htmlFor='email'>Email</label>
             <input type='email'
                    name='email'
@@ -67,23 +66,24 @@ class LoginForm extends Component {
                    onKeyUp={this.handlers.loginChange}
                    onBlur={this.handlers.loginChange}/>
           </div>
-          <div>
-            <label htmlFor='password'>Mot de passe</label>
+          <div className={styles.input}>
+            <label htmlFor='password'>Lösenord</label>
             <input type='password'
                    name='password'
                    id='password'
                    onKeyUp={this.handlers.loginChange}
                    onBlur={this.handlers.loginChange}/>
           </div>
-          <div>
-            <input type='submit' value={`Se connecter`}/>
+          <div className={styles.input}>
+            <input type='submit' value={`Logga in`}/>
           </div>
           <div>
             {(loginStatus) ? <p>{loginStatus}</p> : ''}
           </div>
         </form>
-        <form onSubmit={this.handlers.restore}>
-          <div>
+        <form onSubmit={this.handlers.restore} className={styles.restoreForm}>
+          <p>Har du glömt ditt lösenord?</p>
+          <div className={styles.input}>
             <label htmlFor='email'>Email</label>
             <input type='email'
                    name='email'
@@ -92,13 +92,13 @@ class LoginForm extends Component {
                    onBlur={this.handlers.restoreChange}/>
           </div>
           <div>
-            <input type='submit' value={`Se récupérer`}/>
+            <input type='submit' value={`Återställ`}/>
           </div>
           <div>
             {(restoreStatus) ? <p>{restoreStatus}</p> : ''}
           </div>
         </form>
-      </div>
+      </section>
     );
   }
 }

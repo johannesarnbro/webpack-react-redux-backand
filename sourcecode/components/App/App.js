@@ -15,7 +15,8 @@ class App extends Component {
       backgroundImage: 'url("../../assets/images/grass.jpg")',
     };
     return (
-      <div className={styles.app} style={style}>
+      <div className={styles.app}>
+        <div className={styles.background} style={style}></div>
         <Header actions={this.props.actions}
                 user={this.props.user}/>
         <main className={styles.main}>

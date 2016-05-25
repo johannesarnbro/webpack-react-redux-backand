@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import Immutable from 'immutable';
+import { isBeforeDeadline } from 'utils/dates';
 import BongGroupGames from 'components/BongGroupGames/BongGroupGames';
 import BongGroups from 'components/BongGroups/BongGroups';
 import BongPlayoffGames from 'components/BongPlayoffGames/BongPlayoffGames';
@@ -42,41 +42,68 @@ class BongPage extends Component {
   render () {
     const { games, locations, teams, user } = this.props;
 
-    if (games.get('response')
-      && locations.get('response')
-      && teams.get('response')
-    ) {
-      return (
-        <div>
-          <div>BongPage!</div>
-          <form>
-            <BongGroupGames actions={this.props.actions}
+    let submitButton;
+    switch (user.get('status')) {
+      case 'bongChanged':
+        submitButton = (<button className={styles.button} onClick={this.handlers.sendBong}>Spara ditt tipp</button>);
+        break;
+      case 'bongSent':
+        submitButton = (<button className={styles.disabledButton} disabled='disabled'>Ditt tipp är sparat!</button>);
+        break;
+      case 'bongSending':
+        submitButton = (<button className={styles.button} disabled='disabled'>Sparar tippet...</button>);
+        break;
+      default:
+        submitButton = (<button className={styles.disabledButton} disabled='disabled'>
+          Inga ändringar i ditt tipp
+        </button>);
+    }
+
+    if (isBeforeDeadline()) {
+
+      if (user.get('user')) {
+
+        if (games.get('response')
+          && locations.get('response')
+          && teams.get('response')
+        ) {
+          return (
+            <section>
+              <h1 className={styles.heading}>- Mitt tipp -</h1>
+              <form>
+                <BongGroupGames actions={this.props.actions}
+                                games={this.props.games}
+                                user={this.props.user}/>
+                <BongGroups actions={this.props.actions}
                             games={this.props.games}
+                            locations={this.props.locations}
+                            teams={this.props.teams}
                             user={this.props.user}/>
-            <BongGroups actions={this.props.actions}
-                        games={this.props.games}
-                        locations={this.props.locations}
-                        teams={this.props.teams}
-                        user={this.props.user}/>
-            <BongPlayoffGames actions={this.props.actions}
-                              games={this.props.games}
-                              locations={this.props.locations}
-                              teams={this.props.teams}
-                              user={this.props.user}/>
-            <div className={styles.send}>
-              {
-                (Immutable.is(user.getIn(['user', 'bong']), user.get('tempBong')) || user.get('status') === 'bongSent')
-                  ? (<button className={styles.disabledButton} disabled='disabled'>Bongen är sparad</button>)
-                  : (<button className={styles.button} onClick={this.handlers.sendBong}>Spara bongen</button>)
-              }
-            </div>
-          </form>
-        </div>
-      );
+                <BongPlayoffGames actions={this.props.actions}
+                                  games={this.props.games}
+                                  locations={this.props.locations}
+                                  teams={this.props.teams}
+                                  user={this.props.user}/>
+                <div className={styles.send}>
+                  {submitButton}
+                </div>
+              </form>
+            </section>
+          );
+        } else {
+          return (
+            <p className={styles.message}>Hämtar data...</p>
+          )
+        }
+      } else {
+        return (<p className={styles.message}>Registrera dig eller logga in för att fylla i ett tipp!</p>);
+      }
     } else {
-      return (
-        <div>Hämtar data...</div>
-      )
+      if (user.get('user')) {
+        return (<p>Deadline passerad</p>);
+      } else {
+        return false;
+      }
     }
   }
 }

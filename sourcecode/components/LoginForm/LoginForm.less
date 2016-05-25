@@ -1,0 +1,82 @@
+@import '../../styles/common';
+
+.loginSection {
+  width: 100%;
+  max-width: @desktop-max-width;
+}
+
+.restoreForm,
+.loginForm {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 300px;
+  margin: 0 auto 50px;
+  justify-content: center;
+
+  .input {
+    width: 100%;
+    text-align: center;
+  }
+
+  p {
+    font-size: 13px;
+    color: @color-text;
+    margin-bottom: 10px;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    color: @color-text;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  input[type='email'],
+  input[type='password']{
+    height: 45px;
+    width: 100%;
+    padding: 5px;
+    border-radius: 25px;
+    text-align: center;
+    font-size: 13px;
+    box-sizing: border-box;
+    margin: 0 0 10px;
+    border: 1px dashed fade(@color-black, 50%);
+    display:inline-block;
+    vertical-align:middle;
+    white-space:normal;
+    color: @color-black-dark;
+    background-color: fade(white, 30%);
+    line-height:1;
+    outline: none;
+
+    &:focus {
+      border: 1px dashed @color-black;
+    }
+
+    &.hasValue {
+      border: 1px solid @color-black;
+    }
+  }
+
+  input[type='submit'] {
+    height: 45px;
+    min-width: 150px;
+    padding: 15px;
+    margin: 10px;
+    border: none;
+    border-radius: 40px;
+    color: @color-white;
+    background-color: @color-primary;
+    outline: none;
+    box-sizing: border-box;
+    font-size: 13px;
+
+    &:hover {
+      background-color: @color-primary-light;
+    }
+  }
+}
+
