@@ -4,15 +4,19 @@ import Header from 'components/Header/Header';
 import { populateStoreFromLocalStorage } from 'utils/syncStoreAndLocalStorage';
 import styles from './App.less';
 
+let background = '';
+
 class App extends Component {
 
   componentWillMount () {
     populateStoreFromLocalStorage(this.props.actions);
+    const images = ['', 'grass', 'baguettes'];
+    background = images[Math.floor(Math.random() * 2) + 1];
   }
 
   render () {
     const style = {
-      backgroundImage: 'url("../../assets/images/grass.jpg")',
+      backgroundImage: `url("./assets/images/${background}.jpg")`,
     };
     return (
       <div className={styles.app}>

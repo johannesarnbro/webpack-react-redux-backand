@@ -51,12 +51,16 @@ class BongGroupGames extends Component {
             <input id={`${id-1}-0`}
                    type='text'
                    value={values[0]}
+                   pattern='[0-9]*'
+                   inputMode='numeric'
                    onChange={this.handlers.set}
                    className={(values[0]) ? styles.hasValue : ''}/>
             <span className={styles.divider}>-</span>
             <input id={`${id-1}-1`}
                    type='text'
                    value={values[1]}
+                   pattern='[0-9]*'
+                   inputMode='numeric'
                    onChange={this.handlers.set}
                    className={(values[1]) ? styles.hasValue : ''}/>
             <label htmlFor={`${id-1}-1`}>{away.name}</label>

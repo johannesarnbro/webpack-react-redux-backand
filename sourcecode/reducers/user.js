@@ -57,6 +57,9 @@ function user (state = initialState, action) {
     case actions.USER_REGISTER_FAIL:
       return state.setIn(['forms', 'signup', 'status'], (action.error.message || ''));
 
+    case actions.USER_RESTORE_PASSWORD_SUCCESS:
+      return state.setIn(['forms', 'restore', 'status'], ('Ett mail med lösenord har skickats!' || ''));
+
     case actions.BONG_SEND_REQUEST:
       return state.set('status', 'bongSending');
 

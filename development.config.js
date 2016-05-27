@@ -17,7 +17,7 @@ module.exports = function (config) {
         conf: path.resolve(__dirname, config.confFile),
       },
       extensions: ['', '.js', '.less', '.jsx', '.json'],
-      modulesDirectories: ["web_modules", "node_modules", config.themeDir, config.sourcecodeDir],
+      modulesDirectories: ["web_modules", "node_modules", config.sourcecodeDir],
     },
     devtool: "eval",
     loader: {
@@ -30,10 +30,6 @@ module.exports = function (config) {
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
-    ],
-    postcss: [
-      // Grid system
-      require('lost'),
     ],
     module: {
       loaders: [
