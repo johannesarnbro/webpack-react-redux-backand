@@ -10,7 +10,7 @@ class BongPlayoffGamesQuarters extends Component {
 
     const quarters = gamesQuarters.map((game, i) => {
       const j = i * 2;
-      const location = game.get('location').toJS();
+      // const location = game.get('location').toJS();
 
       const g = {};
       switch (i) {
@@ -38,11 +38,14 @@ class BongPlayoffGamesQuarters extends Component {
       const away = teams.find(team => team.get('objectId') == awayId);
       const checked = bong.getIn(['playoff', 'semi', i]);
 
+
+      // <span className={styles.city}>
+      //       {location.city} ({location.stadium})
+      //     </span>
       return (
         <div key={game.get('objectId')} className={styles.game}>
-          <span className={styles.city}>
-            {location.city} ({location.stadium})
-          </span>
+          <span className={styles.gameId}>Kvartfinal #{i+1}</span>
+          <span className={styles.gameDesc}>{`Vinnare Å:${g.h+1} - Å:${g.a+1}`}</span>
           {(home)
             ? <div className={styles.team}>
             <p className={styles.teamName}>{home.get('name')}</p>

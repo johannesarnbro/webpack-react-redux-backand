@@ -1,11 +1,8 @@
 //GLOBAL COLORS
 //Theme colors in colors.less
 
-@color-default-gradient: linear-gradient(to bottom, @color-black 0%,@color-black-dark 100%);
-
 @color-primary: #2B98BD;
 @color-secondary: tomato;
-
 @color-primary-light: lighten(@color-primary, 10%);
 @color-secondary-light: lighten(@color-secondary, 10%);
 
@@ -13,18 +10,11 @@
 @color-black-dark: #1f1f1f;
 @color-white: #ffffff;
 @color-text: #6a6a6a;
-@color-link: @color-primary;
-@color-link-hover: @color-primary-light;
-@color-error: #ff0000;
-
 
 
 //FONTS
-
 @font-heading: 500 1em 'Input serif', sans-serif;
-@font-button: 200 1em 'bebas_neue_regular', sans-serif;
 @font-text: 200 1em 'Input sans', sans-serif;
-@font-text-bold: 500 1em 'roboto_medium', sans-serif;
 
 
 
@@ -45,6 +35,3 @@
 @desktop: ~"only screen and (min-width: @{desktop-min-width}) and (max-width: @{desktop-max-width})";
 @desktopAndUp: ~"only screen and (min-width: @{desktop-min-width})";
 @desktop-large: ~"only screen and (min-width: @{desktop-large-min-width})";
-
-@burgerMenu: ~"only screen and (max-width: 900px)";
-@siteMenu: ~"only screen and (max-width: 980px)";

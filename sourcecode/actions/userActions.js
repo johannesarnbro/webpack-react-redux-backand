@@ -3,6 +3,9 @@ import Backendless from 'backendless';
 import getImmutableFromExoticJS from 'get-immutable-from-exotic-js';
 
 const userActions = keyMirror({
+  USER_GET_REQUEST: null,
+  USER_GET_SUCCESS: null,
+  USER_GET_FAIL: null,
   USER_LOGIN_REQUEST: null,
   USER_LOGIN_SUCCESS: null,
   USER_LOGIN_FAIL: null,
@@ -53,6 +56,41 @@ export function setFormStatus (form, status) {
     status,
   }
 }
+
+//Tried to fix that bong is not updated if using multiple browsers
+// /* * * * * * * * * * */
+// /* GET CURRENT USER  */
+// /* * * * * * * * * * */
+//
+// function getUser () {
+//   return dispatch => {
+//     dispatch({
+//       type: userActions.USER_GET_REQUEST,
+//     });
+//
+//     const userGetSuccess = (response) => {
+//       console.log('response', response);
+//       dispatch({
+//         type: userActions.USER_GET_SUCCESS,
+//         response,
+//         receivedAt: Date.now(),
+//       })
+//     };
+//
+//     const userGetFail = (error) => {
+//       dispatch({
+//         type: userActions.USER_GET_FAIL,
+//         error,
+//       })
+//     };
+//   };
+// }
+//
+// export function fetchCurrentUserFromApi () {
+//   return dispatch => {
+//     return dispatch(getUser());
+//   };
+// }
 
 /* * * * * * * */
 /* LOGOUT USER */

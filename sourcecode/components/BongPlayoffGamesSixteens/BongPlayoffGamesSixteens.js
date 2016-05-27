@@ -5,7 +5,6 @@ import styles from './../BongPlayoffGames/BongPlayoffGames.less';
 class BongPlayoffGamesSixteens extends Component {
 
   render () {
-
     const {bong, gamesSixteens, handlers, teams} = this.props;
 
     const teamsLeft = teams.filter(team => {
@@ -14,24 +13,26 @@ class BongPlayoffGamesSixteens extends Component {
 
     const sixteens = gamesSixteens.map((game, i) => {
       const j = i * 2;
-      const location = game.get('location').toJS();
+      // const location = game.get('location').toJS();
       const homeId = bong.getIn(['playoff', 'sixteen', j]);
       const home = teams.find(team => team.get('objectId') == homeId);
       const awayId = bong.getIn(['playoff', 'sixteen', j + 1]);
       const away = teams.find(team => team.get('objectId') == awayId);
       const checked = bong.getIn(['playoff', 'quarter', i]);
 
+      // <span className={styles.city}>
+      //       {location.city} ({location.stadium})
+      //     </span>
+
       return (
         <div key={game.get('objectId')} className={styles.game}>
-          <span className={styles.city}>
-            {location.city} ({location.stadium})
-          </span>
+          <span className={styles.gameId}>Åttondelsfinal #{i+1}</span>
           <select name={`select_${j}`}
                   id={`select_${j}`}
                   onChange={handlers.setSixteen}
                   className={(home) ? styles.hasValue : ''}>
-            {(home) ? <option value={home.get('objectId')}>{home.get('name')}</option> : false}
-            <option value=''>-</option>
+            {(home) ? <option value={home.get('objectId')}>{home.get('name')}</option> : <option value=''>-</option>}
+            {(home) ? <option value=''>-</option> : false}
             {teamsLeft.map(team => {
               return (
                 <option key={team.get('objectId')} value={team.get('objectId')}>{team.get('name')}</option>
@@ -57,8 +58,8 @@ class BongPlayoffGamesSixteens extends Component {
                   id={`select_${j+1}`}
                   onChange={handlers.setSixteen}
                   className={(away) ? styles.hasValue : ''}>
-            {(away) ? <option value={away.get('objectId')}>{away.get('name')}</option> : false}
-            <option value=''>-</option>
+            {(away) ? <option value={away.get('objectId')}>{away.get('name')}</option> : <option value=''>-</option>}
+            {(away) ? <option value=''>-</option> : false}
             {teamsLeft.map(team => {
               return (
                 <option key={team.get('objectId')} value={team.get('objectId')}>{team.get('name')}</option>

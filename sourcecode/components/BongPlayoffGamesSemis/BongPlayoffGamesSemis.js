@@ -10,7 +10,7 @@ class BongPlayoffGamesSemis extends Component {
 
     const semis = gamesSemis.map((game, i) => {
       const j = i * 2;
-      const location = game.get('location').toJS();
+      // const location = game.get('location').toJS();
 
       const homeId = bong.getIn(['playoff', 'semi', j]);
       const awayId = bong.getIn(['playoff', 'semi', j+1]);
@@ -20,9 +20,8 @@ class BongPlayoffGamesSemis extends Component {
 
       return (
         <div key={game.get('objectId')} className={styles.game}>
-          <span className={styles.city}>
-            {location.city} ({location.stadium})
-          </span>
+          <span className={styles.gameId}>Semifinal #{i+1}</span>
+          <span className={styles.gameDesc}>{`Vinnare K:${j+1} - K:${j+2}`}</span>
           {(home)
             ? <div className={styles.team}>
             <p className={styles.teamName}>{home.get('name')}</p>
