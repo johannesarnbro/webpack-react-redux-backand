@@ -102,7 +102,7 @@ class SignupForm extends Component {
             <div className={styles.input}>
               <input type='submit' value={`Registrera dig`}/>
             </div>
-            <div>
+            <div className={styles.message}>
               {(status) ? <p>{status}</p> : ''}
             </div>
           </form>

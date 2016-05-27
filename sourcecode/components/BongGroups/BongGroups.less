@@ -45,8 +45,8 @@
   padding: 10px;
   box-sizing: border-box;
   text-align: center;
-  border-bottom: 2px dashed @color-black;
-  color: @color-text;
+  border-bottom: 2px dashed @color-primary;
+  color: @color-primary;
 }
 
 [class*="list-item"] {
@@ -60,11 +60,11 @@
   border-radius: 25px;
   margin: 5px auto;
   width: 200px;
-  background-color: fade(white, 30%);
+  background-color: fade(white, 20%);
 
   &[class*="dragged"] {
     border: none;
-    background-color: fade(@color-white, 30%);
+    background-color: fade(@color-white, 20%);
   }
   &[class*="placeholder"] {
     border: 1px dashed @color-black;

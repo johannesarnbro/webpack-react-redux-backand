@@ -1,18 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
-import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
-import { syncHistory } from 'react-router-redux'
-import thunkMiddleware from 'redux-thunk'
-import rootReducer from 'reducers'
 import AppContainer from 'containers/AppContainer';
 import { AnswerPage } from 'containers/AnswerPageContainer';
 import { DateSwitch } from 'containers/DateSwitchContainer';
 import { BongPage } from 'containers/BongPageContainer';
 import { SignupPage } from 'containers/SignupPageContainer';
 import { LoginPage } from 'containers/LoginPageContainer';
+import { store } from 'store/store';
 
 import Backendless from 'backendless';
 import config from 'webpack-config-loader!conf';
@@ -21,14 +18,6 @@ Backendless.enablePromises();
 
 import installDevTools from 'immutable-devtools';
 installDevTools(Immutable);
-
-const reduxRouterMiddleware = syncHistory(browserHistory);
-const middleWares = [thunkMiddleware, reduxRouterMiddleware];
-const createStoreWithMiddleware = compose(
-  applyMiddleware(...middleWares),
-  window.devToolsExtension ? window.devToolsExtension() : f => f)
-(createStore);
-const store = createStoreWithMiddleware(rootReducer, Immutable.Map());
 
 if (module.hot) {
   module.hot.accept('reducers', () => {

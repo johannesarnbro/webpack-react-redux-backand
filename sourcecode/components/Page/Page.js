@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { getUserName } from 'utils/getUserName';
 import styles from './Page.less';
 
 class Page extends Component {
@@ -23,9 +24,7 @@ class Page extends Component {
           const users = orderedTippers.map(item => {
             if (item.get('firstName') === 'Rätt') return false;
             const score = item.get('score').split(',').reverse()[0];
-            let name = `${item.get('firstName')} `;
-            name += (item.get('nickName')) ? `"${item.get('nickName')}" ` : '';
-            name += `${item.get('lastName')}`;
+            const name = getUserName(item);
 
             return (<li key={item.get('objectId')} className={styles.tipper}>
               <span className={styles.tipperName}>{name}:</span>
