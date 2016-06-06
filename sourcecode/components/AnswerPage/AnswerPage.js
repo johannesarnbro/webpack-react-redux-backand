@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Immutable from 'immutable';
-import BongGroupGames from 'components/BongGroupGames/BongGroupGames';
-import AnswerBongGroups from 'components/AnswerBongGroups/AnswerBongGroups';
-import BongPlayoffGames from 'components/BongPlayoffGames/BongPlayoffGames';
+import BongGroupGames from 'components/BongPage/BongGroupGames';
+import AnswerBongGroups from 'components/AnswerPage/AnswerBongGroups';
+import BongPlayoffGames from 'components/BongPage/BongPlayoffGames';
 import updatePoints from 'utils/updatePoints';
 import styles from './AnswerPage.less';
 

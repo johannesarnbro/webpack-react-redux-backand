@@ -1,0 +1,44 @@
+@import '../../styles/common';
+
+.heading {
+  font: @font-heading;
+  font-size: 30px;
+  text-transform: uppercase;
+  text-align: center;
+  color: @color-secondary;
+}
+
+.message {
+  text-align: center;
+  font-size: 13px;
+}
+
+.disabledButton,
+.button {
+  width: 100%;
+  height: 80px;
+  border: none;
+  border-radius: 40px;
+  color: @color-white;
+  background-color: @color-secondary;
+  outline: none;
+  font-size: 24px;
+
+  @media @tabletAndDown {
+    font-size: 18px;
+  }
+}
+
+.button {
+  &:active {
+    background-color: fade(@color-secondary, 80%);
+  }
+}
+
+.disabledButton {
+  opacity: 0.4;
+}
+
+.send {
+  margin: 50px;
+}

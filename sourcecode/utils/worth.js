@@ -6,8 +6,9 @@ export const worth = {
   playoff: {
     sixteen: 2,
     quarter: 4,
-    semi: 8,
-    final: 16,
+    semi: 6,
+    final: 10,
+    winner: 12,
   },
   playoffMultiplier: 6,
 };

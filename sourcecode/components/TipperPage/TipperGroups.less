@@ -1,0 +1,63 @@
+@import '../../styles/common';
+
+.stageHeader {
+  font: @font-heading;
+  width: 100%;
+  font-size: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  text-transform: uppercase;
+  color: @color-black;
+  //background-color: fade(@color-primary, 20%);
+  border-bottom: 2px dashed @color-black;
+  margin: 30px 0;
+}
+
+.groupList {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.group {
+  position: relative;
+  display: block;
+  padding: 20px;
+  box-sizing: border-box;
+  width: calc(~'50%');
+
+  @media @tablet {
+    width: calc(~'100%');
+  }
+
+  @media @mobile {
+    width: calc(~'100%');
+  }
+}
+
+.groupId {
+  font: @font-heading;
+  width: 50%;
+  font-size: 20px;
+  text-transform: uppercase;
+  margin: 0 auto 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  border-bottom: 2px dashed @color-primary;
+  color: @color-primary;
+}
+
+.listItem {
+  padding: 10px;
+  user-select: none;
+  box-sizing: border-box;
+  font-size: 13px;
+  text-align: center;
+  border: 1px solid @color-black;
+  border-radius: 25px;
+  margin: 5px auto;
+  width: 200px;
+  background-color: fade(white, 20%);
+}

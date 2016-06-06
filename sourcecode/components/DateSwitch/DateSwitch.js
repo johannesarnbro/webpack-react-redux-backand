@@ -7,29 +7,26 @@ import Page from 'components/Page/Page';
 
 class DateSwitch extends Component {
 
-// <BongPage actions={this.props.actions}
-// bong={this.props.bong}
-// games={this.props.games}
-// locations={this.props.locations}
-// teams={this.props.teams}
-// user={this.props.user}/>
   render () {
     if (isBeforeDeadline()) {
       if (this.props.user.get('user')) {
         return (
           <Page actions={this.props.actions}
-                tippers={this.props.tippers}/>
+                tippers={this.props.tippers}
+                me={this.props.user.getIn(['user', 'objectId'])}/>
         );
       } else {
         return (
           <Page actions={this.props.actions}
-                tippers={this.props.tippers}/>
+                tippers={this.props.tippers}
+                me=''/>
         );
       }
     } else {
       return (
         <Page actions={this.props.actions}
-              tippers={this.props.tippers}/>
+              tippers={this.props.tippers}
+              me=''/>
       );
     }
   }

@@ -7,6 +7,7 @@ import AppContainer from 'containers/AppContainer';
 import { AnswerPage } from 'containers/AnswerPageContainer';
 import { DateSwitch } from 'containers/DateSwitchContainer';
 import { BongPage } from 'containers/BongPageContainer';
+import { TipperPage } from 'containers/TipperPageContainer';
 import { SignupPage } from 'containers/SignupPageContainer';
 import { LoginPage } from 'containers/LoginPageContainer';
 import { store } from 'store/store';
@@ -41,13 +42,12 @@ ReactDOM.render(
           <Route path='/mitt-tipp'>
             <IndexRoute component={BongPage}/>
           </Route>
+          <Route path='/tippare'>
+            <IndexRoute component={TipperPage}/>
+            <Route path=':slug' component={TipperPage}/>
+          </Route>
           <Route path='/ratt-rad'>
             <IndexRoute component={AnswerPage}/>
-          </Route>
-          <Route path=':slug'>
-            <IndexRoute component={DateSwitch}/>
-            <Route path='/:slug/:slug' component={DateSwitch}/>
-            <Route path='/:slug/:slug/:slug' component={DateSwitch}/>
           </Route>
         </Route>
         <Route path='*' component={DateSwitch}/>

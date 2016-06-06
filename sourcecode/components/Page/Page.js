@@ -16,17 +16,21 @@ class Page extends Component {
     switch (status) {
       case 'done':
         if (tippers.size) {
-          const orderedTippers = tippers.sortBy(item => {
+          const orderedTippersByName = tippers.sortBy(item => item.get('firstName')).reverse();
+          const orderedTippersByScore = orderedTippersByName.sortBy(item => {
             let score = item.get('score') || '';
             score = parseInt(score.split(',').reverse()[0]);
             return score;
           }).reverse();
-          const users = orderedTippers.map(item => {
+          const users = orderedTippersByScore.map(item => {
             if (item.get('firstName') === 'Rätt') return false;
             const score = item.get('score').split(',').reverse()[0];
             const name = getUserName(item);
 
-            return (<li key={item.get('objectId')} className={styles.tipper}>
+            let isMe;
+            if (this.props.me === item.get('objectId')) isMe = styles.isMe;
+
+            return (<li key={item.get('objectId')} className={`${styles.tipper} ${isMe}`}>
               <span className={styles.tipperName}>{name}:</span>
               <span className={styles.tipperScore}>{score} <span className={styles.p}>p</span></span>
             </li>);
@@ -58,6 +62,7 @@ class Page extends Component {
 
 Page.propTypes = {
   actions: PropTypes.object,
+  me: PropTypes.string,
   tippers: ImmutablePropTypes.map,
 };
 

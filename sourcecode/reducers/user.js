@@ -52,7 +52,8 @@ function user (state = initialState, action) {
       return state.setIn(['forms', 'signup', 'status'], 'Förbereder tippet...');
 
     case actions.USER_REGISTER_SUCCESS:
-      let userRegedState = state.setIn(['forms', 'signup', 'status'], 'Du är nu reggad. Logga in och börja tippa!');
+      let userRegedState = state.setIn(['forms', 'signup', 'status'], 'Du är nu reggad. Logga in och börja tippa! ' +
+        'Regler och annan matnyttig info har du fått på mailen.');
       userRegedState = userRegedState.setIn(['status'], 'registerSuccess');
       return userRegedState;
 

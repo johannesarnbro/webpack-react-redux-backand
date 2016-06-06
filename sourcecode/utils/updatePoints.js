@@ -26,9 +26,6 @@ const updatePoints = (tippers, answer, actions) => {
     const bong = fromJS(JSON.parse(tipper.get('bong')));
     let points = 0;
 
-
-
-
     // Loop group games
     bong.get('groupGames').map((game, i) => {
       const tipperHome = game.get(0);
@@ -109,7 +106,7 @@ const updatePoints = (tippers, answer, actions) => {
 
 
     const newPoints = `${tipper.get('score')},${points}`;
-
+    
     //Update this user's points
     actions.updateTipperPoints(tipper.set('score', newPoints))
   });

@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import BongPlayoffGamesSixteens from 'components/BongPlayoffGamesSixteens/BongPlayoffGamesSixteens';
-import BongPlayoffGamesQuarters from 'components/BongPlayoffGamesQuarters/BongPlayoffGamesQuarters';
-import BongPlayoffGamesSemis from 'components/BongPlayoffGamesSemis/BongPlayoffGamesSemis';
-import BongPlayoffGamesFinal from 'components/BongPlayoffGamesFinal/BongPlayoffGamesFinal';
-import BongPlayoffWinner from 'components/BongPlayoffWinner/BongPlayoffWinner';
+import BongPlayoffGamesSixteens from 'components/BongPage/BongPlayoffGamesSixteens';
+import BongPlayoffGamesQuarters from 'components/BongPage/BongPlayoffGamesQuarters';
+import BongPlayoffGamesSemis from 'components/BongPage/BongPlayoffGamesSemis';
+import BongPlayoffGamesFinal from 'components/BongPage/BongPlayoffGamesFinal';
+import BongPlayoffWinner from 'components/BongPage/BongPlayoffWinner';
 import styles from './BongPlayoffGames.less';
 
 const handlers = (props) => {

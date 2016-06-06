@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import styles from './../BongPlayoffGames/BongPlayoffGames.less';
+import styles from './BongPlayoffGames.less';
 
 class BongPlayoffGamesWinner extends Component {
 

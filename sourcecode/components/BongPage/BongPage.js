@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { isBeforeDeadline } from 'utils/dates';
-import BongGroupGames from 'components/BongGroupGames/BongGroupGames';
-import BongGroups from 'components/BongGroups/BongGroups';
-import BongPlayoffGames from 'components/BongPlayoffGames/BongPlayoffGames';
+import BongGroupGames from 'components/BongPage/BongGroupGames';
+import BongGroups from 'components/BongPage/BongGroups';
+import BongPlayoffGames from 'components/BongPage/BongPlayoffGames';
 import styles from './BongPage.less';
 
 const handlers = (props) => {
