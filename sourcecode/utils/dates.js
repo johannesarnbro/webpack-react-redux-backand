@@ -6,3 +6,7 @@ export const isBeforeDeadline = () => {
 
   return deadline > now;
 };
+
+export const getTodayDate = (date) => {
+  return `${date.getDate()}/${date.getMonth() + 1}`;
+};

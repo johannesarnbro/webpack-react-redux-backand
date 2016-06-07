@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { default as _DateSwitch } from 'components/DateSwitch/DateSwitch';
+import { default as _Page } from 'components/Page/Page';
 import * as GameActions from 'actions/gameActions';
 import * as LocationActions from 'actions/locationActions';
 import * as TeamActions from 'actions/teamActions';
@@ -29,7 +29,7 @@ function mapDispatchToProps (dispatch) {
   return {actions: bindActionCreators(AllActions, dispatch)};
 }
 
-export const DateSwitch = connect(
+export const Page = connect(
   mapStateToProps,
   mapDispatchToProps
-)(_DateSwitch);
+)(_Page);

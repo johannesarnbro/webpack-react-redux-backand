@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import AppContainer from 'containers/AppContainer';
 import { AnswerPage } from 'containers/AnswerPageContainer';
-import { DateSwitch } from 'containers/DateSwitchContainer';
+import { Page } from 'containers/PageContainer';
 import { BongPage } from 'containers/BongPageContainer';
 import { TipperPage } from 'containers/TipperPageContainer';
 import { SignupPage } from 'containers/SignupPageContainer';
@@ -32,7 +32,7 @@ ReactDOM.render(
     <div>
       <Router history={browserHistory} onUpdate={() => window.scrollTo(0, 0)}>
         <Route path='/' component={AppContainer}>
-          <IndexRoute component={DateSwitch}/>
+          <IndexRoute component={Page}/>
           <Route path='/registrera'>
             <IndexRoute component={SignupPage}/>
           </Route>
@@ -50,7 +50,7 @@ ReactDOM.render(
             <IndexRoute component={AnswerPage}/>
           </Route>
         </Route>
-        <Route path='*' component={DateSwitch}/>
+        <Route path='*' component={Page}/>
       </Router>
     </div>
   </Provider>,

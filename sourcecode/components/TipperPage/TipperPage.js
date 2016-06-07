@@ -20,7 +20,19 @@ class TipperPage extends Component {
     const {games, locations, teams, tippers} = this.props;
 
     if (isBeforeDeadline()) {
-      return false;
+      if (tippers.get('response').size) {
+        const slug = this.props.routeParams.slug.toLowerCase();
+        const tipper = tippers.get('response').find(t => {
+          return `${t.get('firstName').toLowerCase()}-${t.get('lastName').toLowerCase()}` == slug;
+        });
+        return (
+          <p className={styles.message}>
+            När EM har startat kan du se hur {getUserName(tipper)} har tippat.
+          </p>
+        );
+      } else {
+        return false;
+      }
     } else {
       if (tippers.get('response').size) {
         const slug = this.props.routeParams.slug.toLowerCase();

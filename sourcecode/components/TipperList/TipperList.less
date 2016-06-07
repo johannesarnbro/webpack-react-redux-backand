@@ -1,0 +1,37 @@
+@import '../../styles/common';
+
+.tipperListSection {
+  width: 100%;
+  max-width: @desktop-max-width;
+}
+
+.tipperList {
+  max-width: 500px;
+  margin: 0 auto 40px;
+}
+
+.tipper {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: @color-text;
+  padding: 5px;
+  border-bottom: 1px dashed @color-text;
+  text-decoration: none;
+
+  &:hover {
+    background-color: fade(@color-white, 20%);
+  }
+}
+
+.isMe {
+  background-color: fade(@color-primary, 10%);
+}
+
+.tipperName {
+
+}
+
+.tipperScore {
+  color: @color-primary;
+}
