@@ -26,7 +26,7 @@ class TodaysGames extends Component {
 
         const time = new Date(game.get('time'));
         return getTodayDate(time) === getTodayDate(today);
-        // return getTodayDate(time) === '10/6';
+        // return getTodayDate(time) === '13/6';
       });
 
       if (todaysGames.size && !isBeforeDeadline) {
