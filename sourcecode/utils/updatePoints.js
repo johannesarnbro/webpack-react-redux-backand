@@ -22,21 +22,21 @@ const updatePoints = (tippers, answer, actions) => {
     return tipper.get('admin') === false;
   });
 
-  tippers.map(tipper => {
+  tippers = tippers.map(tipper => {
     const bong = fromJS(JSON.parse(tipper.get('bong')));
     let points = 0;
 
     // Loop group games
     bong.get('groupGames').map((game, i) => {
-      const tipperHome = game.get(0);
-      const tipperAway = game.get(1);
+      const tipperHome = parseInt(game.get(0)).toString();
+      const tipperAway = parseInt(game.get(1)).toString();
       const tipperSymbol = calculateSymbol(tipperHome, tipperAway);
 
-      const answerHome = answer.getIn(['groupGames', i, 0]);
-      const answerAway = answer.getIn(['groupGames', i, 1]);
+      const answerHome = parseInt(answer.getIn(['groupGames', i, 0])).toString();
+      const answerAway = parseInt(answer.getIn(['groupGames', i, 1])).toString();
       const answerSymbol = calculateSymbol(answerHome, answerAway);
 
-      if (tipperHome === '' || tipperAway === '' || answerHome === '' || answerAway === '') {
+      if (tipperHome === 'NaN' || tipperAway === 'NaN' || answerHome === 'NaN' || answerAway === 'NaN') {
         return false;
       }
 
@@ -74,9 +74,6 @@ const updatePoints = (tippers, answer, actions) => {
       });
     });
 
-
-
-
     // Loop playoff stages
     bong.get('playoff').map((teams, stage) => {
 
@@ -106,9 +103,31 @@ const updatePoints = (tippers, answer, actions) => {
 
 
     const newPoints = `${tipper.get('score')},${points}`;
-    
+
     //Update this user's points
-    actions.updateTipperPoints(tipper.set('score', newPoints))
+    // return tipper.set('score', ',0');
+    return tipper.set('score', newPoints);
+  }).sortBy(t => {
+    return t.get('score').split(',').reverse()[0];
+  }).reverse().reduce((memo, t, i) => {
+    if (memo.last()) {
+      const prevScore = memo.last().get('score').split(',').reverse()[0];
+      const score = t.get('score').split(',').reverse()[0];
+      const prevPlace = memo.last().get('place').split(',').reverse()[0];
+
+
+      if (prevScore === score) {
+        t = t.set('place', `${t.get('place')},${prevPlace}`);
+      } else {
+        t = t.set('place', `${t.get('place')},${i+1}`);
+      }
+    } else {
+      t = t.set('place', `${t.get('place')},${i+1}`);
+    }
+    // t = t.set('place', ',1');
+    return memo = memo.push(t);
+  }, fromJS([])).map((t, i) => {
+    actions.updateTipperPoints(t);
   });
 
   return true;

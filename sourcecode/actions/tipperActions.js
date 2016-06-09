@@ -47,7 +47,7 @@ function fetchTippers () {
     };
 
     const query = {
-      properties: ['objectId', 'bong', 'score', 'firstName', 'nickName', 'lastName', 'admin'],
+      properties: ['objectId', 'bong', 'score', 'place', 'firstName', 'nickName', 'lastName', 'admin'],
       options: {
         pageSize: 99,
       },
