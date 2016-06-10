@@ -91,6 +91,14 @@ class TipperList extends Component {
           <div className={styles.tipperList}>
             {users}
           </div>
+          <div className={styles.price}>
+            <p>Potten:</p>
+            <ul>
+              <li>1:a - {(tippers.size -1) * 70}:-</li>
+              <li>2:a - {(tippers.size -1) * 20}:-</li>
+              <li>3:a - {(tippers.size -1) * 10}:-</li>
+            </ul>
+          </div>
         </section>
       );
     } else if (!tippers && status === 'fetching') {

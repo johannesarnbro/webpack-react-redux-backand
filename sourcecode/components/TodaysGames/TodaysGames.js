@@ -29,7 +29,7 @@ class TodaysGames extends Component {
         // return getTodayDate(time) === '13/6';
       });
 
-      if (todaysGames.size && !isBeforeDeadline) {
+      if (todaysGames.size && !isBeforeDeadline()) {
         const todaysGamesData = [];
         todaysGames.map((game, i) => {
           const number = game.get('number');
@@ -98,13 +98,15 @@ class TodaysGames extends Component {
           todaysGamesData.push(gameData);
         });
 
-        const options = {};
+        const options = {
+          width: 500,
+        };
         const charts = todaysGamesData.map(data => {
           return (
             <article className={styles.game} key={data.title}>
               <p className={styles.gameHeading}>{data.title}</p>
-              <PieChart className={styles.chart} data={data.pie} options={options}/>
-              <BarChart className={styles.chart} data={data.bar} options={options}/>
+              <PieChart className={styles.chart} data={data.pie} width={320} options={options}/>
+              <BarChart className={styles.chart} data={data.bar} width={320} options={options}/>
             </article>
           );
         });
