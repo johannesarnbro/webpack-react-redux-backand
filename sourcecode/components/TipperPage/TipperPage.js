@@ -63,7 +63,17 @@ class TipperPage extends Component {
                                 user={tipper}/>
             </section>
           )
+        } else if (!tipper) {
+          return (
+            <p className={styles.message}>
+              Hittar inte tipparen
+            </p>
+          );
+        } else {
+          return false;
         }
+      } else {
+        return false;
       }
     }
     //

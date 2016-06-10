@@ -22,6 +22,7 @@ const handlers = (props) => {
       user.bong = JSON.stringify(baseBongObject);
       user.admin = false;
       user.score = ',0';
+      user.place = ',1';
 
       props.actions.registerUserToBackendless(user);
     },

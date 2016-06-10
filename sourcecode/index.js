@@ -43,14 +43,17 @@ ReactDOM.render(
             <IndexRoute component={BongPage}/>
           </Route>
           <Route path='/tippare'>
-            <IndexRoute component={TipperPage}/>
-            <Route path=':slug' component={TipperPage}/>
+            <IndexRoute component={Page}/>
+            <Route path='/*/:slug' component={TipperPage}/>
           </Route>
           <Route path='/ratt-rad'>
             <IndexRoute component={AnswerPage}/>
           </Route>
+          <Route path='/*'>
+            <IndexRoute component={Page}/>
+            <Route path='/*' component={Page}/>
+          </Route>
         </Route>
-        <Route path='*' component={Page}/>
       </Router>
     </div>
   </Provider>,

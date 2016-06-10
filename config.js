@@ -16,6 +16,8 @@ module.exports = {
     cacheTime: 0,
     AppID: '6050D0F6-022F-8002-FF1B-D5CDDC447000',
     AppSecret: '1B00EBD5-6975-C0B0-FF08-86DE29587700',
+    // AppID: '762DFB83-2BFC-4FDE-FF84-49EF9AF03000',
+    // AppSecret: 'E61DDBB5-D389-9076-FF9B-E4262579E000',
     AppVersion: 'v1',
   },
   prod: {
