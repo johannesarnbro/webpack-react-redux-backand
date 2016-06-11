@@ -1,7 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import Immutable from 'immutable';
 import {isBeforeDeadline} from 'utils/dates';
 import {getUserName} from 'utils/getUserName';
+import Chart from 'react-chartjs';
 import TipperGroupGames from 'components/TipperPage/TipperGroupGames';
 import TipperGroups from 'components/TipperPage/TipperGroups';
 import TipperPlayoffGames from 'components/TipperPage/TipperPlayoffGames';
@@ -39,18 +41,82 @@ class TipperPage extends Component {
         const tipper = tippers.get('response').find(t => {
           return `${t.get('firstName').toLowerCase()}-${t.get('lastName').toLowerCase()}` == slug;
         });
+        const answer = tippers.get('response').filter(t => t.get('admin'));
 
         if (games.get('response')
           && locations.get('response')
           && teams.get('response')
           && tipper
         ) {
+
+          const LineChart = Chart.Line;
+          const ScoreData = {
+            labels: [],
+            datasets: [
+              {
+                label: 'Poäng',
+                fillColor: 'transparent',
+                strokeColor: '#2B98BD',
+                pointColor: '#2B98BD',
+                pointStrokeColor: 'transparent',
+                pointHighlightFill: '#2B98BD',
+                pointHighlightStroke: '#2B98BD',
+                data: Immutable.fromJS(tipper.get('score').split(','))
+                  .reduce((memo, p) => {
+                    return (p) ? memo.push(p) : memo;
+                  }, Immutable.fromJS([]))
+                  .toArray(),
+              },
+            ],
+          };
+
+          const PlaceData = {
+            labels: [],
+            datasets: [
+              {
+                label: 'Placering',
+                fillColor: 'transparent',
+                strokeColor: 'tomato',
+                pointColor: 'tomato',
+                pointStrokeColor: 'transparent',
+                pointHighlightFill: 'tomato',
+                pointHighlightStroke: 'tomato',
+                data: Immutable.fromJS(tipper.get('place').split(','))
+                  .reduce((memo, p) => {
+                    return (p) ? memo.push(p) : memo;
+                  }, Immutable.fromJS([]))
+                  .toArray(),
+              },
+            ],
+          };
+
+          ScoreData.datasets[0].data.map((d, i) => {
+            ScoreData.labels.push(i + 1);
+            PlaceData.labels.push(i + 1);
+          });
+
+          const options = {
+            width: 300,
+          };
+
+
           return (
             <section>
               <h1 className={styles.heading}>- {getUserName(tipper)} -</h1>
+
+              <div className={styles.chartWrap}>
+                <div className={styles.chart}>
+                  <p>Poäng</p>
+                  <LineChart data={ScoreData} options={options}/></div>
+                <div className={styles.chart}>
+                  <p>Placering</p>
+                  <LineChart data={PlaceData} options={options}/>
+                </div>
+              </div>
               <TipperGroupGames actions={this.props.actions}
                                 games={this.props.games}
-                                user={tipper}/>
+                                user={tipper}
+                                answer={answer}/>
               <TipperGroups actions={this.props.actions}
                             games={this.props.games}
                             locations={this.props.locations}

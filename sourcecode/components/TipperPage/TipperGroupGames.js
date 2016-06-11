@@ -7,8 +7,9 @@ class BongGroupGames extends Component {
 
   render () {
     const games = this.props.games.get('response');
+    // const answer = Immutable.fromJS(JSON.parse(this.props.answer.getIn([0, 'bong'])));
     const bong = Immutable.fromJS(JSON.parse(this.props.user.get('bong')));
-    
+
     const groupGames = games.filter(game => {
       return game.get('stage') === 'group';
     })
@@ -22,6 +23,7 @@ class BongGroupGames extends Component {
         const home = game.get('home').toJS();
         const away = game.get('away').toJS();
         const values = bong.getIn(['groupGames', id - 1]).toJS();
+        // const answerValues = answer.getIn(['groupGames', id - 1]).toJS();
 
         return (
           <div key={id} className={styles.game}>
@@ -64,6 +66,7 @@ class BongGroupGames extends Component {
 
 BongGroupGames.propTypes = {
   actions: PropTypes.object,
+  answer: ImmutablePropTypes.list,
   games: ImmutablePropTypes.map,
   user: ImmutablePropTypes.map,
 };

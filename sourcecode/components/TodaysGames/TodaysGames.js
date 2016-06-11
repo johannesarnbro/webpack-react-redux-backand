@@ -28,6 +28,7 @@ class TodaysGames extends Component {
     const tippers = this.props.tippers.get('response');
 
     if (games && tippers) {
+      
       const PieChart = Chart.Pie;
       const BarChart = Chart.Bar;
 
