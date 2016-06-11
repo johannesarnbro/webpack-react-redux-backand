@@ -13,6 +13,16 @@ import styles from './TodaysGames.less';
 
 class TodaysGames extends Component {
 
+  shouldComponentUpdate(nextProps) {
+    const games = this.props.games.get('response');
+    const tippers = this.props.tippers.get('response');
+    const user = this.props.user.get('response');
+    const _games = nextProps.games.get('response');
+    const _tippers = nextProps.tippers.get('response');
+    const _user = nextProps.user.get('response');
+    return (!Immutable.is(games, _games) || !Immutable.is(tippers, _tippers) || !Immutable.is(user, _user));
+  }
+
   render () {
     const games = this.props.games.get('response');
     const tippers = this.props.tippers.get('response');
@@ -31,10 +41,16 @@ class TodaysGames extends Component {
 
       if (todaysGames.size && !isBeforeDeadline()) {
         const todaysGamesData = [];
+
+        const justTippers = tippers.filter(t => {
+          return !t.get('admin');
+        });
+
         todaysGames.map((game, i) => {
           const number = game.get('number');
           const gameData = {
             title: `${game.getIn(['home', 'name'])} - ${game.getIn(['away', 'name'])}`,
+            time: game.get('time'),
             pie: [],
             bar: {
               labels: [],
@@ -45,41 +61,41 @@ class TodaysGames extends Component {
             },
           };
 
-          const homeWin = tippers.filter(t => {
+          const homeWin = justTippers.filter(t => {
             const bong = Immutable.fromJS(JSON.parse(t.get('bong')));
             return bong.getIn(['groupGames', number - 1, 0]) - bong.getIn(['groupGames', number - 1, 1]) > 0;
           });
 
-          const drawWin = tippers.filter(t => {
+          const drawWin = justTippers.filter(t => {
             const bong = Immutable.fromJS(JSON.parse(t.get('bong')));
             return bong.getIn(['groupGames', number - 1, 0]) - bong.getIn(['groupGames', number - 1, 1]) == 0;
           });
 
-          const awayWin = tippers.filter(t => {
+          const awayWin = justTippers.filter(t => {
             const bong = Immutable.fromJS(JSON.parse(t.get('bong')));
             return bong.getIn(['groupGames', number - 1, 0]) - bong.getIn(['groupGames', number - 1, 1]) < 0;
           });
 
           gameData.pie.push({
-            label: '1',
+            label: `${game.getIn(['home', 'name'])}`,
             value: homeWin.size,
             color: '#2B98BD',
             borderWidth: 0,
           });
           gameData.pie.push({
-            label: 'x',
+            label: 'Kryss',
             value: drawWin.size,
             color: '#FDFDFD',
             borderWidth: 0,
           });
           gameData.pie.push({
-            label: '2',
+            label: `${game.getIn(['away', 'name'])}`,
             value: awayWin.size,
             color: '#FF6347',
             borderWidth: 0,
           });
 
-          tippers.sortBy(t => {
+          justTippers.sortBy(t => {
             const bong = Immutable.fromJS(JSON.parse(t.get('bong')));
             return bong.getIn(['groupGames', number - 1, 1]);
           }).sortBy(t => {
@@ -102,9 +118,14 @@ class TodaysGames extends Component {
           width: 500,
         };
         const charts = todaysGamesData.map(data => {
+          let time = new Date(data.time);
+          time = (time.getHours() - 2) + ':00';
           return (
             <article className={styles.game} key={data.title}>
-              <p className={styles.gameHeading}>{data.title}</p>
+              <div className={styles.gameHeading}>
+                <p>{data.title}</p>
+                <span>{time}</span>
+              </div>
               <PieChart className={styles.chart} data={data.pie} width={320} options={options}/>
               <BarChart className={styles.chart} data={data.bar} width={320} options={options}/>
             </article>

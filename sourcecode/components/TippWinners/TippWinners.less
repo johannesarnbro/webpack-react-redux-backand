@@ -1,0 +1,75 @@
+@import '../../styles/common';
+
+.winnersSection {
+  width: 100%;
+  max-width: @desktop-max-width;
+}
+
+.stageHeader {
+  font: @font-heading;
+  width: 100%;
+  font-size: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  text-transform: uppercase;
+  color: @color-black;
+  //background-color: fade(@color-primary, 20%);
+  border-bottom: 2px dashed @color-black;
+  margin: 30px 0;
+}
+
+.winnersList {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+
+.winner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 10px;
+
+  .ballWrap {
+    width: 160px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .ball {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 2px solid #dadada;
+    background-color: white;
+    border-radius: 200px;
+    font-size: 13px;
+    color: @color-text;
+  }
+  
+  .name {
+    width: 160px;
+    font-size: 13px;
+    color: @color-text;
+    text-align: center;
+  }
+
+  &:nth-child(3n +1) {
+    .ball {
+      color: white;
+      background-color: @color-primary;
+      border-color: white;
+    }
+  }
+  &:nth-child(3n +3) {
+    .ball {
+      color: white;
+      background-color: @color-secondary;
+      border-color: white;
+    }
+  }
+}

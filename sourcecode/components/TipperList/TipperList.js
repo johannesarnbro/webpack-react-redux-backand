@@ -7,6 +7,14 @@ import styles from './TipperList.less';
 
 class TipperList extends Component {
 
+  shouldComponentUpdate(nextProps) {
+    const tippers = this.props.tippers.get('response');
+    const user = this.props.user.get('response');
+    const _tippers = nextProps.tippers.get('response');
+    const _user = nextProps.user.get('response');
+    return (!Immutable.is(tippers, _tippers) || !Immutable.is(user, _user));
+  }
+
   render () {
     const status = this.props.tippers.get('status');
     const tippers = this.props.tippers.get('response');
