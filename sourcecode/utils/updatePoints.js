@@ -108,13 +108,12 @@ const updatePoints = (tippers, answer, actions) => {
     // return tipper.set('score', ',0');
     return tipper.set('score', newPoints);
   }).sortBy(t => {
-    return t.get('score').split(',').reverse()[0];
+    return parseInt(t.get('score').split(',').reverse()[0]);
   }).reverse().reduce((memo, t, i) => {
     if (memo.last()) {
       const prevScore = memo.last().get('score').split(',').reverse()[0];
       const score = t.get('score').split(',').reverse()[0];
       const prevPlace = memo.last().get('place').split(',').reverse()[0];
-
 
       if (prevScore === score) {
         t = t.set('place', `${t.get('place')},${prevPlace}`);
