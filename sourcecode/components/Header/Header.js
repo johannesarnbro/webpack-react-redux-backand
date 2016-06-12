@@ -26,7 +26,9 @@ class Header extends Component {
       <div className={styles.header}>
         <Link to='/' className={styles.logo}>- Tippeligan 2016 -</Link>
         <div className={styles.separator}></div>
-        {(user.get('user')) ? <Link to={'/mitt-tipp'} className={styles.buttonHighlight}>Mitt tipp</Link> : false}
+          {(user.get('user')) ? <Link to={`/tippare/${user
+          .getIn(['user', 'firstName']).toLowerCase()}-${user.getIn(['user', 'lastName']).toLowerCase()}`}
+            className={styles.buttonHighlight}>Mitt tipp</Link> : false}
         {(user.get('user')) ? <Link to={'/'} className={styles.button} onClick={actions.logoutUserFromBackendless}>
           Logga ut
         </Link> : false}
