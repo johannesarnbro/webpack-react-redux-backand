@@ -24,6 +24,7 @@ const userActions = keyMirror({
   SET_GROUP_GAME: null,
   SET_GROUP_ORDER: null,
   SET_PLAYOFF_GAME: null,
+  SET_PLAYOFF_GAME_ANSWER: null,
   SET_FORM_INPUT: null,
   SET_FORM_STATUS: null,
   USER_POPULATE_FROM_LS: null,
@@ -308,6 +309,15 @@ export function setGroupOrder (group, order) {
 export function setPlayoffGame (stage, index, value) {
   return {
     type: userActions.SET_PLAYOFF_GAME,
+    stage,
+    index,
+    value,
+  }
+}
+
+export function setPlayoffGameAnswer (stage, index, value) {
+  return {
+    type: userActions.SET_PLAYOFF_GAME_ANSWER,
     stage,
     index,
     value,

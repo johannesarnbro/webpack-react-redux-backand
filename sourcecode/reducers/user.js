@@ -120,6 +120,42 @@ function user (state = initialState, action) {
       tempState = tempState.set('status', 'bongChanged');
       return tempState.setIn(['tempBong', 'playoff', action.stage, action.index], action.value);
 
+    case actions.SET_PLAYOFF_GAME_ANSWER:
+      let answerTempState = state;
+      // let answerStages = [];
+      // if (action.stage === 'sixteen') {
+      //   answerStages = ['semi', 'final', 'winner'];
+      //
+      //   const newIndex = (action.index%2) ? ((action.index - 1) / 2) : (action.index / 2);
+      //   const thisOldVal = answerTempState.getIn(['tempBong', 'playoff', 'sixteen', action.index]);
+      //   const thatoldVal = answerTempState.getIn(['tempBong', 'playoff', 'quarter', newIndex]);
+      //
+      //   if (thisOldVal == thatoldVal) {
+      //     answerTempState = answerTempState.setIn(['tempBong', 'playoff', 'quarter', newIndex], action.value);
+      //   }
+      // }
+      // if (action.stage === 'quarter') {
+      //   answerStages = ['semi', 'final', 'winner'];
+      // }
+      // if (action.stage === 'semi') {
+      //   answerStages = ['final', 'winner'];
+      // }
+      // if (action.stage === 'final') {
+      //   answerStages = ['winner'];
+      // }
+      //
+      // answerStages.map(stage => {
+      //   answerTempState.getIn(['tempBong', 'playoff', stage]).map((val, index) => {
+      //     const oldVal = answerTempState.getIn(['tempBong', 'playoff', action.stage, action.index]);
+      //     if (oldVal && oldVal.length && val == oldVal) {
+      //       answerTempState = answerTempState.setIn(['tempBong', 'playoff', stage, index], '');
+      //     }
+      //   });
+      // });
+
+      answerTempState = answerTempState.set('status', 'bongChanged');
+      return answerTempState.setIn(['tempBong', 'playoff', action.stage, action.index], action.value);
+
     case actions.SET_FORM_INPUT:
       return setFormInput(state, action);
 

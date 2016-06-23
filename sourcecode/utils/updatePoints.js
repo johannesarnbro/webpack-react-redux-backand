@@ -93,15 +93,15 @@ const updatePoints = (tippers, answer, actions) => {
           //Add points for having team through to this stage
           points += worth.playoff[stage];
           //Add extra points base on how many tippers have the team through
-          points += ((1 - (otherTippersWithTeamThough / totalNumberOfOtherTippers)) * worth.playoffMultiplier);
+          const extra = ((1 - (otherTippersWithTeamThough / totalNumberOfOtherTippers)) * worth.playoffMultiplier);
+          points += Math.round(extra);
 
         } else {
           return false;
         }
       });
     });
-
-
+    
     const newPoints = `${tipper.get('score')},${points}`;
 
     //Update this user's points

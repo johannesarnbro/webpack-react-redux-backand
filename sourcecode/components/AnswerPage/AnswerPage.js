@@ -3,7 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 import BongGroupGames from 'components/BongPage/BongGroupGames';
 import AnswerBongGroups from 'components/AnswerPage/AnswerBongGroups';
-import BongPlayoffGames from 'components/BongPage/BongPlayoffGames';
+import AnswerPlayoffGames from 'components/AnswerPage/AnswerPlayoffGames';
 import updatePoints from 'utils/updatePoints';
 import styles from './AnswerPage.less';
 
@@ -66,11 +66,11 @@ class AnswerPage extends Component {
                                 locations={this.props.locations}
                                 teams={this.props.teams}
                                 user={this.props.user}/>
-              <BongPlayoffGames actions={this.props.actions}
-                                games={this.props.games}
-                                locations={this.props.locations}
-                                teams={this.props.teams}
-                                user={this.props.user}/>
+              <AnswerPlayoffGames actions={this.props.actions}
+                                  games={this.props.games}
+                                  locations={this.props.locations}
+                                  teams={this.props.teams}
+                                  user={this.props.user}/>
               {
                 (Immutable.is(user.getIn(['user', 'bong']), user.get('tempBong')))
                   ? (<button className={styles.disbaledButton} disabled='disabled'>Envoyer</button>)
